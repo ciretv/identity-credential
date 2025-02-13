@@ -86,7 +86,7 @@ internal class LocalDevelopmentEnvironment(
                 "androidRequireGmsAttestation" -> "false"
                 "androidRequireVerifiedBootGreen" -> "false"
                 "androidRequireAppSignatureCertificateDigests" -> ""
-                "issuingAuthorityList" -> "utopia_local utopia_local_pid utopia_local_photoid"
+                "issuingAuthorityList" -> "utopia_local utopia_local_pid utopia_local_photoid payment_authentication" //EVO - not sure if payment_instrument makes sense
                 "issuingAuthority.utopia_local.name" -> "Utopia DMV (Local)"
                 "issuingAuthority.utopia_local.type" -> "DrivingLicense"
                 "issuingAuthority.utopia_local.description" -> "Utopia Driver's License (Local)"
@@ -105,6 +105,12 @@ internal class LocalDevelopmentEnvironment(
                 "issuingAuthority.utopia_local_photoid.logo" -> "utopia_local_photoid/logo.png"
                 "issuingAuthority.utopia_local_photoid.cardArt" -> "utopia_local_photoid/card_art.png"
                 "issuingAuthority.utopia_local_photoid.requireUserAuthenticationToViewDocument" -> "false"
+                "issuingAuthority.payment_authentication.name" -> "Payment Authentication (Local)"
+                "issuingAuthority.payment_authentication.type" -> "PaymentAuthentication"
+                "issuingAuthority.payment_authentication.description" -> "Payment Authentication (Local)"
+                "issuingAuthority.payment_authentication.logo" -> "utopia_local_photoid/logo.png"
+                "issuingAuthority.payment_authentication.cardArt" -> "utopia_local_photoid/card_art.png"
+                "issuingAuthority.payment_authentication.requireUserAuthenticationToViewDocument" -> "false"
                 "cloudSecureAreaUrl" -> settingsModel.cloudSecureAreaUrl.value
                 else -> null
             }

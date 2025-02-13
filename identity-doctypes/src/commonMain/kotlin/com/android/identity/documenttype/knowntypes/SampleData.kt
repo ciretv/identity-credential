@@ -74,4 +74,6 @@ internal object SampleData {
     const val THEATRE_SEAT = "G2"
     const val CINEMA_PARKING = true
 
+    //Payment Authentication sample data
+    const val PAYMENT_AUTH_NUMBER = "4111112014267661"
 }

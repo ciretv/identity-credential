@@ -31,6 +31,7 @@ import com.android.identity.documenttype.knowntypes.DrivingLicense
 import com.android.identity.documenttype.knowntypes.EUPersonalID
 import com.android.identity.documenttype.knowntypes.GermanPersonalID
 import com.android.identity.documenttype.knowntypes.PhotoID
+import com.android.identity.documenttype.knowntypes.PaymentAuthentication
 import com.android.identity.flow.annotation.FlowJoin
 import com.android.identity.flow.annotation.FlowMethod
 import com.android.identity.flow.annotation.FlowState
@@ -103,6 +104,9 @@ private const val PHOTO_ID_DOCTYPE = PhotoID.PHOTO_ID_DOCTYPE
 private const val PHOTO_ID_NAMESPACE = PhotoID.PHOTO_ID_NAMESPACE
 private const val ISO_23220_2_NAMESPACE = PhotoID.ISO_23220_2_NAMESPACE
 
+private const val PAYMENT_AUTH_DOCTYPE = PaymentAuthentication.PAYMENT_AUTH_DOCTYPE
+private const val PAYMENT_AUTH_NAMESPACE = PaymentAuthentication.PAYMENT_AUTH_NAMESPACE
+
 /**
  * State of [IssuingAuthority] RPC implementation.
  */
@@ -120,6 +124,7 @@ class IssuingAuthorityState(
         private const val TYPE_EU_PID = "EuPid"
         private const val TYPE_DRIVING_LICENSE = "DrivingLicense"
         private const val TYPE_PHOTO_ID = "PhotoId"
+        private const val TYPE_PAYMENT_AUTH = "PaymentAuthentication"
 
         suspend fun getConfiguration(env: FlowEnvironment, id: String): IssuingAuthorityConfiguration {
             return env.cache(IssuingAuthorityConfiguration::class, id) { configuration, resources ->
@@ -148,6 +153,7 @@ class IssuingAuthorityState(
                             TYPE_DRIVING_LICENSE -> "Driving License"
                             TYPE_EU_PID -> "EU Personal ID"
                             TYPE_PHOTO_ID -> "Photo ID"
+                            TYPE_PAYMENT_AUTH -> "Payment Authentication"
                             else -> throw IllegalArgumentException("Unknown type $type")
                         },
                         cardArt = art.toByteArray(),
@@ -169,6 +175,7 @@ class IssuingAuthorityState(
             addDocumentType(GermanPersonalID.getDocumentType())
             addDocumentType(EUPersonalID.getDocumentType())
             addDocumentType(PhotoID.getDocumentType())
+            addDocumentType(PaymentAuthentication.getDocumentType())
         }
 
         val documentTableSpec = StorageTableSpec(
@@ -374,6 +381,7 @@ class IssuingAuthorityState(
                 TYPE_DRIVING_LICENSE -> MDL_NAMESPACE
                 TYPE_EU_PID -> EUPID_NAMESPACE
                 TYPE_PHOTO_ID -> PHOTO_ID_NAMESPACE
+                TYPE_PAYMENT_AUTH -> PAYMENT_AUTH_NAMESPACE
                 else -> throw IllegalArgumentException("Unknown type $type")
             }
             val newAdministrativeNumber = try {
@@ -427,6 +435,7 @@ class IssuingAuthorityState(
             TYPE_DRIVING_LICENSE -> MDL_NAMESPACE
             TYPE_EU_PID -> EUPID_NAMESPACE
             TYPE_PHOTO_ID -> PHOTO_ID_NAMESPACE
+            TYPE_PAYMENT_AUTH -> PAYMENT_AUTH_NAMESPACE
             else -> throw IllegalArgumentException("Unknown type $type")
         }
         builder.putEntryString(
@@ -485,6 +494,7 @@ class IssuingAuthorityState(
             TYPE_DRIVING_LICENSE -> MDL_DOCTYPE
             TYPE_EU_PID -> EUPID_DOCTYPE
             TYPE_PHOTO_ID -> PHOTO_ID_DOCTYPE
+            TYPE_PAYMENT_AUTH -> PAYMENT_AUTH_DOCTYPE
             else -> throw IllegalArgumentException("Unknown type $type")
         }
         val msoGenerator = MobileSecurityObjectGenerator(
@@ -668,6 +678,7 @@ class IssuingAuthorityState(
             TYPE_DRIVING_LICENSE -> generateMdlDocumentConfiguration(env, collectedEvidence)
             TYPE_EU_PID -> generateEuPidDocumentConfiguration(env, collectedEvidence)
             TYPE_PHOTO_ID -> generatePhotoIdDocumentConfiguration(env, collectedEvidence)
+            TYPE_PAYMENT_AUTH -> generatePaymentAuthDocumentConfiguration(env, collectedEvidence)
             else -> throw IllegalArgumentException("Unknown type $type")
         }
     }
@@ -1139,6 +1150,50 @@ class IssuingAuthorityState(
                 staticData = staticData,
             ),
             sdJwtVcDocumentConfiguration = null,
+            directAccessConfiguration = null
+        )
+    }
+
+    private suspend fun generatePaymentAuthDocumentConfiguration(
+        env: FlowEnvironment,
+        collectedEvidence: Map<String, EvidenceResponse>
+    ): DocumentConfiguration {
+        val now = Clock.System.now()
+        val issueDate = now
+        val resources = env.getInterface(Resources::class)!!
+        val settings = WalletServerSettings(env.getInterface(Configuration::class)!!)
+        val expiryDate = now + 365.days * 5
+
+        val prefix = "issuingAuthority.$authorityId"
+        val artPath = settings.getString("${prefix}.cardArt") ?: "default/card_art.png"
+        val issuingAuthorityName = settings.getString("${prefix}.name") ?: "Default Issuer"
+        val art = resources.getRawResource(artPath)!!
+
+        val credType = documentTypeRepository.getDocumentTypeForMdoc(PAYMENT_AUTH_DOCTYPE)!!
+        val staticData: NameSpacedData
+
+        val path = (collectedEvidence["path"] as EvidenceResponseQuestionMultipleChoice).answerId
+
+        val imageFormat = collectedEvidence["devmode_image_format"]
+        val jpeg2k = imageFormat is EvidenceResponseQuestionMultipleChoice &&
+                imageFormat.answerId == "devmode_image_format_jpeg2000"
+        staticData = fillInSampleData(resources, jpeg2k, credType).build()
+
+        val firstName = staticData.getDataElementString(PAYMENT_AUTH_NAMESPACE, "given_name")
+        return DocumentConfiguration(
+            displayName = "My Bank Payment Instrument",
+            typeDisplayName = "Payment Authentication",
+            cardArt = art.toByteArray(),
+            requireUserAuthenticationToViewDocument =
+            settings.getBool("${prefix}.requireUserAuthenticationToViewDocument"),
+            mdocConfiguration = MdocDocumentConfiguration(
+                docType = PAYMENT_AUTH_DOCTYPE,
+                staticData = staticData,
+            ),
+            sdJwtVcDocumentConfiguration = SdJwtVcDocumentConfiguration( //EVO - can this be removed?
+                vct = EUPersonalID.EUPID_VCT,
+                keyBound = true
+            ),
             directAccessConfiguration = null
         )
     }

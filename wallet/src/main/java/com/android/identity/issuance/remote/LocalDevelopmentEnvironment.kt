@@ -233,6 +233,16 @@ internal class LocalDevelopmentEnvironment(
                         R.drawable.img_erika_signature,
                         Bitmap.CompressFormat.JPEG
                     )
+                "payment_authentication/card_art.png" ->
+                    bitmapData(
+                        R.drawable.utopia_driving_license_card_art,
+                        Bitmap.CompressFormat.PNG
+                    )
+                "payment_authentication/logo.png" ->
+                    bitmapData(
+                        R.drawable.utopia_dmv_issuing_authority_logo,
+                        Bitmap.CompressFormat.PNG
+                    )
                 else -> null
             }
         }
@@ -255,6 +265,8 @@ internal class LocalDevelopmentEnvironment(
                     context.resources.getString(R.string.funke_issuing_authority_tos)
                 "generic/tos.html" ->
                     context.resources.getString(R.string.generic_issuing_authority_tos)
+                "payment_authentication/tos.html" ->
+                    context.resources.getString(R.string.utopia_local_issuing_authority_tos)
                 else -> null
             }
         }

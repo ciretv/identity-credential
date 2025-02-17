@@ -90,7 +90,7 @@ fun CreateRequestDropDown(
             Spacer(modifier = Modifier.height(8.dp))
             ElementChip(
                 modifier = Modifier.fillMaxWidth(),
-                documentElementsRequest = selectionState.micov,
+                documentElementsRequest = selectionState.paymentAuthentication_sca,
                 onRequestFieldsToggled = onSelectionUpdated
             )
 
@@ -104,7 +104,7 @@ fun CreateRequestDropDown(
             Spacer(modifier = Modifier.height(8.dp))
             ElementChip(
                 modifier = Modifier.fillMaxWidth(),
-                documentElementsRequest = selectionState.mdlWithLinkage,
+                documentElementsRequest = selectionState.payment_initiation,
                 onRequestFieldsToggled = onSelectionUpdated
             )
 

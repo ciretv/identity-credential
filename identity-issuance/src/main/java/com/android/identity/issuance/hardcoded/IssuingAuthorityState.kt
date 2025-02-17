@@ -1166,7 +1166,7 @@ class IssuingAuthorityState(
 
         val prefix = "issuingAuthority.$authorityId"
         val artPath = settings.getString("${prefix}.cardArt") ?: "default/card_art.png"
-        val issuingAuthorityName = settings.getString("${prefix}.name") ?: "Default Issuer"
+        val issuingAuthorityName = settings.getString("${prefix}.name") ?: "ES Issuer"
         val art = resources.getRawResource(artPath)!!
 
         val credType = documentTypeRepository.getDocumentTypeForMdoc(PAYMENT_AUTH_DOCTYPE)!!
@@ -1174,12 +1174,17 @@ class IssuingAuthorityState(
 
         val path = (collectedEvidence["path"] as EvidenceResponseQuestionMultipleChoice).answerId
 
-        val imageFormat = collectedEvidence["devmode_image_format"]
-        val jpeg2k = imageFormat is EvidenceResponseQuestionMultipleChoice &&
-                imageFormat.answerId == "devmode_image_format_jpeg2000"
-        staticData = fillInSampleData(resources, jpeg2k, credType).build()
+        val nsBuilder = NameSpacedData.Builder()
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_auth_number", "4111112014267661")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_auth_expiry", "2026-09")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_scheme", "V")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_type", "C")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "merchant_name", "ShoeXYZ")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_amount", "00.00")
+            .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_currency_code", "USD")
 
-        val firstName = staticData.getDataElementString(PAYMENT_AUTH_NAMESPACE, "given_name")
+        staticData = nsBuilder.build()
+
         return DocumentConfiguration(
             displayName = "My Bank Payment Authentication",
             typeDisplayName = "Payment Authentication",

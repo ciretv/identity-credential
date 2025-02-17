@@ -9,6 +9,7 @@ import com.android.identity.crypto.javaX509Certificate
 import com.android.identity.documenttype.DocumentTypeRepository
 import com.android.identity.documenttype.knowntypes.DrivingLicense
 import com.android.identity.documenttype.knowntypes.EUPersonalID
+import com.android.identity.documenttype.knowntypes.PaymentAuthentication
 import com.android.identity.documenttype.knowntypes.VaccinationDocument
 import com.android.identity.documenttype.knowntypes.VehicleRegistration
 import com.android.identity.mdoc.vical.SignedVical
@@ -84,6 +85,7 @@ class VerifierApp : Application() {
         documentTypeRepositoryInstance.addDocumentType(VehicleRegistration.getDocumentType())
         documentTypeRepositoryInstance.addDocumentType(VaccinationDocument.getDocumentType())
         documentTypeRepositoryInstance.addDocumentType(EUPersonalID.getDocumentType())
+        documentTypeRepositoryInstance.addDocumentType(PaymentAuthentication.getDocumentType())
     }
 
     companion object {

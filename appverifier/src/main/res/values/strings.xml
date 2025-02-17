@@ -20,8 +20,9 @@
     <string name="mdl_full">Full mDL"</string>
     <string name="mdl_micov_linkage">Request mDL + micov with linkage</string>
     <string name="mvr_full">Request mVR"</string>
-    <string name="micov_full">Request micov"</string>
     <string name="eu_pid_full">Request EU Personal ID"</string>
+    <string name="payment_authentication_sca">Request Payment Authentication (SCA)"</string>
+    <string name="payment_initiation">Request Payment Initiation"</string>
 
     <!-- mDL strings -->
     <string name="family_name">Family Name</string>

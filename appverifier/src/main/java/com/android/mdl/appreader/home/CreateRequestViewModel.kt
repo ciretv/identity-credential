@@ -34,9 +34,9 @@ class CreateRequestViewModel : ViewModel() {
 
             state.value.custom.title -> mutableState.update { it.copy(custom = updated) }
             state.value.mVR.title -> mutableState.update { it.copy(mVR = updated) }
-            state.value.micov.title -> mutableState.update { it.copy(micov = updated) }
             state.value.euPid.title -> mutableState.update { it.copy(euPid = updated) }
-            state.value.mdlWithLinkage.title -> mutableState.update { it.copy(mdlWithLinkage = updated) }
+            state.value.paymentAuthentication_sca.title -> mutableState.update { it.copy(paymentAuthentication_sca = updated) }
+            state.value.payment_initiation.title -> mutableState.update { it.copy(payment_initiation = updated) }
         }
     }
 
@@ -135,20 +135,6 @@ class CreateRequestViewModel : ViewModel() {
                 )
             )
         }
-        if (uiState.micov.isSelected) {
-            requestDocumentList.addRequestDocument(
-                getRequestDocument(
-                    RequestDocument.MICOV_DOCTYPE,
-                    intentToRetain,
-                    filterNamespace = { ns -> ns == RequestDocument.MICOV_ATT_NAMESPACE })
-            )
-            requestDocumentList.addRequestDocument(
-                getRequestDocument(
-                    RequestDocument.MICOV_DOCTYPE,
-                    intentToRetain,
-                    filterNamespace = { ns -> ns == RequestDocument.MICOV_VTR_NAMESPACE })
-            )
-        }
         if (uiState.euPid.isSelected) {
             requestDocumentList.addRequestDocument(
                 getRequestDocument(
@@ -157,28 +143,38 @@ class CreateRequestViewModel : ViewModel() {
                 )
             )
         }
-        if (uiState.mdlWithLinkage.isSelected) {
+        if (uiState.paymentAuthentication_sca.isSelected) {
             requestDocumentList.addRequestDocument(
                 getRequestDocument(
-                    RequestDocument.MDL_DOCTYPE,
+                    RequestDocument.PAYMENT_AUTH_DOCTYPE,
                     intentToRetain,
-                    filterNamespace = { ns -> ns == RequestDocument.MDL_NAMESPACE },
+                    filterNamespace = { ns -> ns == RequestDocument.PAYMENT_AUTH_NAMESPACE },
                     filterElement = { el ->
                         listOf(
-                            "portrait",
-                            "document_number"
+                            "merchant_name",
+                            "transaction_amount",
+                            "transaction_currency_code",
+                            "payment_auth_number"
                         ).contains(el.attribute.identifier)
                     }
                 )
             )
+        }
+        if (uiState.payment_initiation.isSelected) {
             requestDocumentList.addRequestDocument(
                 getRequestDocument(
-                    RequestDocument.MICOV_DOCTYPE,
+                    RequestDocument.PAYMENT_AUTH_DOCTYPE,
                     intentToRetain,
+                    filterNamespace = { ns -> ns == RequestDocument.PAYMENT_AUTH_NAMESPACE },
                     filterElement = { el ->
                         listOf(
-                            "pid_DL",
-                            "safeEntry_Leisure"
+                            "payment_scheme",
+                            "payment_type",
+                            "payment_auth_number",
+                            "payment_auth_expiry",
+                            "merchant_name",
+                            "transaction_amount",
+                            "transaction_currency_code"
                         ).contains(el.attribute.identifier)
                     }
                 )

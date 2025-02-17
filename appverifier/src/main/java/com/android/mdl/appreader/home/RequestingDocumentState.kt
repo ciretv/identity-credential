@@ -14,9 +14,10 @@ data class RequestingDocumentState(
     val mdlForUsTransportation: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_us_transportation, true),
     val custom: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_custom),
     val mVR: DocumentElementsRequest = DocumentElementsRequest(R.string.mvr_full),
-    val micov: DocumentElementsRequest = DocumentElementsRequest(R.string.micov_full),
     val euPid: DocumentElementsRequest = DocumentElementsRequest(R.string.eu_pid_full),
-    val mdlWithLinkage: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_micov_linkage)
+    val paymentAuthentication_sca: DocumentElementsRequest = DocumentElementsRequest(R.string.payment_authentication_sca),
+    val payment_initiation: DocumentElementsRequest = DocumentElementsRequest(R.string.payment_initiation),
+
 ) {
 
     val isCustomMdlRequest: Boolean
@@ -60,16 +61,16 @@ data class RequestingDocumentState(
                 append("Vehicle Document")
                 append("; ")
             }
-            if (micov.isSelected) {
-                append("Vaccination Document")
-                append("; ")
-            }
             if (euPid.isSelected) {
                 append("European Personal ID")
                 append("; ")
             }
-            if (mdlWithLinkage.isSelected) {
-                append("Driving Licence + Vaccination with linkage")
+            if (paymentAuthentication_sca.isSelected) {
+                append("Payment Authentication (SCA)")
+                append("; ")
+            }
+            if (payment_initiation.isSelected) {
+                append("Payment Initiation")
                 append("; ")
             }
         }

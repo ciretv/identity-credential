@@ -1181,7 +1181,7 @@ class IssuingAuthorityState(
 
         val firstName = staticData.getDataElementString(PAYMENT_AUTH_NAMESPACE, "given_name")
         return DocumentConfiguration(
-            displayName = "My Bank Payment Instrument",
+            displayName = "My Bank Payment Authentication",
             typeDisplayName = "Payment Authentication",
             cardArt = art.toByteArray(),
             requireUserAuthenticationToViewDocument =
@@ -1190,10 +1190,7 @@ class IssuingAuthorityState(
                 docType = PAYMENT_AUTH_DOCTYPE,
                 staticData = staticData,
             ),
-            sdJwtVcDocumentConfiguration = SdJwtVcDocumentConfiguration( //EVO - can this be removed?
-                vct = EUPersonalID.EUPID_VCT,
-                keyBound = true
-            ),
+            sdJwtVcDocumentConfiguration = null,
             directAccessConfiguration = null
         )
     }

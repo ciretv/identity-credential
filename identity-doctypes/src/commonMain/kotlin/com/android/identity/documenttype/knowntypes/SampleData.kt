@@ -76,4 +76,10 @@ internal object SampleData {
 
     //Payment Authentication sample data
     const val PAYMENT_AUTH_NUMBER = "4111112014267661"
+    const val PAYMENT_AUTH_EXPIRY = "2027-09"
+    const val TRANSACTION_AMOUNT = 00.00
+    const val TRANSACTION_CURRENCY_CODE = "USD"
+    const val MERCHANT_NAME = "ShoeXYZ"
+    const val PAYMENT_SCHEME = "V"
+    const val PAYMENT_TYPE = "C"
 }

@@ -67,7 +67,25 @@ class DeviceRequestGenerator(
         signatureAlgorithm: Algorithm,
         readerKeyCertificateChain: X509CertChain?
     ): DeviceRequestGenerator = apply {
-        // TODO: Add variant that can sign with SecureArea readerKey
+        val updatedRequestInfo = requestInfo?.toMutableMap() ?: mutableMapOf()
+
+        // Only add "transaction_amount" if docType is "payment.auth.1"
+        if (docType == "payment.auth.1" && itemsToRequest["payment.auth.1"]?.containsKey("payment_scheme") == true){
+            updatedRequestInfo["merchant_name"] = encode("ShoeXYZ".toDataItem())
+            updatedRequestInfo["payment_scheme"] = encode("V".toDataItem())
+            updatedRequestInfo["payment_type"] = encode("C".toDataItem())
+            updatedRequestInfo["payment_auth_number"] = encode("4111112014267661".toDataItem())
+            updatedRequestInfo["payment_auth_expiry"] = encode("2027-09".toDataItem())
+            updatedRequestInfo["transaction_amount"] = encode("111".toDataItem())
+            updatedRequestInfo["transaction_currency_code"] = encode("EUR".toDataItem())
+        } else if (docType == "payment.auth.1"){
+            updatedRequestInfo["merchant_name"] = encode("ShoeXYZ".toDataItem())
+            updatedRequestInfo["payment_auth_number"] = encode("4111112014267661".toDataItem())
+            updatedRequestInfo["payment_auth_expiry"] = encode("2027-09".toDataItem())
+            updatedRequestInfo["transaction_amount"] = encode("111".toDataItem())
+            updatedRequestInfo["transaction_currency_code"] = encode("EUR".toDataItem())
+        }
+
         val nsBuilder = CborMap.builder().apply {
             for ((namespaceName, innerMap) in itemsToRequest) {
                 putMap(namespaceName).let { elemBuilder ->
@@ -84,9 +102,10 @@ class DeviceRequestGenerator(
             put("docType", docType)
             put("nameSpaces", nsBuilder.end().build())
         }
-        requestInfo?.let {
+
+        if (updatedRequestInfo.isNotEmpty()) {
             irMapBuilder.putMap("requestInfo").let { riBuilder ->
-                for ((key, value) in requestInfo) {
+                for ((key, value) in updatedRequestInfo) {
                     decode(value).also { valueDataItem ->
                         riBuilder.put(key, valueDataItem)
                     }
@@ -94,14 +113,17 @@ class DeviceRequestGenerator(
                 riBuilder.end()
             }
         }
+
         irMapBuilder.end()
 
         val encodedItemsRequest = encode(irMapBuilder.end().build())
         val itemsRequestBytesDataItem: DataItem = Tagged(24, Bstr(encodedItemsRequest))
         var readerAuth: DataItem? = null
+
         if (readerKey != null) {
             requireNotNull(readerKeyCertificateChain) { "readerKey is provided but no cert chain" }
             checkNotNull(encodedSessionTranscript) { "sessionTranscript has not been set" }
+
             val encodedReaderAuthentication = encode(
                 CborArray.builder()
                     .add("ReaderAuthentication")
@@ -110,8 +132,8 @@ class DeviceRequestGenerator(
                     .end()
                     .build()
             )
-            val readerAuthenticationBytes =
-                encode(Tagged(24, Bstr(encodedReaderAuthentication)))
+            val readerAuthenticationBytes = encode(Tagged(24, Bstr(encodedReaderAuthentication)))
+
             val protectedHeaders = mapOf<CoseLabel, DataItem>(
                 Pair(
                     CoseNumberLabel(Cose.COSE_LABEL_ALG),
@@ -124,6 +146,7 @@ class DeviceRequestGenerator(
                     readerKeyCertificateChain.toDataItem()
                 )
             )
+
             readerAuth = coseSign1Sign(
                 readerKey,
                 readerAuthenticationBytes,
@@ -143,6 +166,7 @@ class DeviceRequestGenerator(
             docRequestsBuilder.add(docRequest)
         }
     }
+
 
     /**
      * Builds the `DeviceRequest` CBOR.

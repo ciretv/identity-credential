@@ -524,6 +524,10 @@ class IssuingAuthorityState(
             msoGenerator.addDigestIdsForNamespace(nameSpaceName, digests)
         }
 
+        val deviceKeyAuthorizedDataElements: MutableMap<String, List<String>> = HashMap()
+        deviceKeyAuthorizedDataElements["payment.auth.1"] = listOf("merchant_name", "transaction_amount", "transaction_currency_code")
+        msoGenerator.setDeviceKeyAuthorizedDataElements(deviceKeyAuthorizedDataElements)
+
         val resources = env.getInterface(Resources::class)!!
         val documentSigningKeyCert = X509Cert.fromPem(
             resources.getStringResource("ds_certificate.pem")!!)
@@ -1179,9 +1183,9 @@ class IssuingAuthorityState(
             .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_auth_expiry", "2026-09")
             .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_scheme", "V")
             .putEntryString(PAYMENT_AUTH_NAMESPACE, "payment_type", "C")
-            .putEntryString(PAYMENT_AUTH_NAMESPACE, "merchant_name", "ShoeXYZ")
-            .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_amount", "00.00")
-            .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_currency_code", "USD")
+ //           .putEntryString(PAYMENT_AUTH_NAMESPACE, "merchant_name", "ShoeXYZ")
+ //           .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_amount", "00.00")
+ //           .putEntryString(PAYMENT_AUTH_NAMESPACE, "transaction_currency_code", "USD")
 
         staticData = nsBuilder.build()
 

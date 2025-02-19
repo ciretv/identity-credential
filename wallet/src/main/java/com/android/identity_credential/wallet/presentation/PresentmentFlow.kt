@@ -280,9 +280,12 @@ private suspend fun mdocSignAndGenerate(
             credential = credential,
             sessionTranscript = encodedSessionTranscript
         )
+    val nameSpacedData = NameSpacedData.Builder()
+        .putEntryString("payment.auth.1", "transaction_amount", "999")
+        .build()
     // try signing the data of the document (or KeyLockedException is thrown)
     documentGenerator.setDeviceNamespacesSignature(
-        NameSpacedData.Builder().build(),
+        nameSpacedData,
         credential.secureArea,
         credential.alias,
         keyUnlockData,

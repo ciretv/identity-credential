@@ -39,6 +39,7 @@ import com.android.identity.request.VcRequest
 import com.android.identity.trustmanagement.TrustPoint
 import com.android.identity_credential.wallet.ui.prompt.consent.showConsentPrompt
 import com.android.identity_credential.wallet.ui.prompt.passphrase.showPassphrasePrompt
+import com.android.identity_credential.wallet.presentation.RequestInfoManager
 
 const val TAG = "PresentmentFlow"
 const val MAX_PASSPHRASE_ATTEMPTS = 3
@@ -272,7 +273,7 @@ private suspend fun mdocSignAndGenerate(
     encodedSessionTranscript: ByteArray,
     keyUnlockData: KeyUnlockData?
 ): ByteArray {
-    // create the document generator for the suitable Document (of DocumentRequest)
+    // Create the document generator
     val documentGenerator =
         createDocumentGenerator(
             claims = claims,
@@ -280,22 +281,72 @@ private suspend fun mdocSignAndGenerate(
             credential = credential,
             sessionTranscript = encodedSessionTranscript
         )
-    val nameSpacedData = NameSpacedData.Builder()
-        .putEntryString("payment.auth.1", "transaction_amount", "999")
-        .build()
-    // try signing the data of the document (or KeyLockedException is thrown)
-    documentGenerator.setDeviceNamespacesSignature(
-        nameSpacedData,
-        credential.secureArea,
-        credential.alias,
-        keyUnlockData,
-        Algorithm.ES256
-    )
-    // increment the credential's usage count since it just finished signing the data successfully
+
+    // Retrieve requestInfo
+    val requestInfo = RequestInfoManager.getRequestInfo()
+    val docType = RequestInfoManager.getDocType()
+
+    if (requestInfo != null && docType == "payment.auth.1") {
+        println("Request Info: $requestInfo")
+
+        // Decode CBOR data from requestInfo
+        val decodedRequestInfo = requestInfo.mapValues { (_, byteArray) ->
+            try {
+                Cbor.decode(byteArray) // Decode CBOR
+            } catch (e: Exception) {
+                println("Error decoding CBOR: ${e.message}")
+                null
+            }
+        }
+        println("Decoded Request Info: $decodedRequestInfo")
+
+        // Define keys
+        val transactionAmountKey = "transaction_amount"
+        val transactionCurrencyKey = "transaction_currency_code"
+        val merchantNameKey = "merchant_name"
+
+        // Ensure value is a string before processing
+        val transactionAmount = decodedRequestInfo[transactionAmountKey]?.toString()?.removePrefix("Tstr(\"")?.removeSuffix("\")") ?: "999"
+        val transactionCurrency = decodedRequestInfo[transactionCurrencyKey]?.toString()?.removePrefix("Tstr(\"")?.removeSuffix("\")") ?: "840" // Default USD
+        val merchantName = decodedRequestInfo[merchantNameKey]?.toString()?.removePrefix("Tstr(\"")?.removeSuffix("\")") ?: "Unknown Merchant"
+
+        // Build NameSpacedData with extracted values
+        val nameSpacedData = NameSpacedData.Builder()
+            .putEntryString("payment.auth.1", transactionAmountKey, transactionAmount)
+            .putEntryString("payment.auth.1", transactionCurrencyKey, transactionCurrency)
+            .putEntryString("payment.auth.1", merchantNameKey, merchantName)
+            .build()
+
+        println("Updated NameSpacedData: $nameSpacedData")
+
+        // Try signing the data of the document (or KeyLockedException is thrown)
+        documentGenerator.setDeviceNamespacesSignature(
+            nameSpacedData,
+            credential.secureArea,
+            credential.alias,
+            keyUnlockData,
+            Algorithm.ES256
+        )
+
+    } else {
+        println("No Request Info Available")
+        val nameSpacedData = NameSpacedData.Builder().build()
+        documentGenerator.setDeviceNamespacesSignature(
+            nameSpacedData,
+            credential.secureArea,
+            credential.alias,
+            keyUnlockData,
+            Algorithm.ES256
+        )
+
+    }
+    // Increment the credential's usage count since it just finished signing the data successfully
     credential.increaseUsageCount()
-    // finally add the document to the response generator and generate the bytes
+
+    // Finally, add the document to the response generator and generate the bytes
     return documentGenerator.generate()
 }
+
 
 private fun createDocumentGenerator(
     claims: List<Claim>,

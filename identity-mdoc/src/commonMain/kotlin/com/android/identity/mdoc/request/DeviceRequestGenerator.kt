@@ -69,7 +69,6 @@ class DeviceRequestGenerator(
     ): DeviceRequestGenerator = apply {
         val updatedRequestInfo = requestInfo?.toMutableMap() ?: mutableMapOf()
 
-        // Only add "transaction_amount" if docType is "payment.auth.1"
         if (docType == "payment.auth.1" && itemsToRequest["payment.auth.1"]?.containsKey("payment_scheme") == true){
             updatedRequestInfo["merchant_name"] = encode("ShoeXYZ".toDataItem())
             updatedRequestInfo["payment_scheme"] = encode("V".toDataItem())

@@ -151,10 +151,11 @@ class CreateRequestViewModel : ViewModel() {
                     filterNamespace = { ns -> ns == RequestDocument.PAYMENT_AUTH_NAMESPACE },
                     filterElement = { el ->
                         listOf(
+                            "payment_auth_number",
+                            "payment_auth_expiry",
                             "merchant_name",
                             "transaction_amount",
-                            "transaction_currency_code",
-                            "payment_auth_number"
+                            "transaction_currency_code"
                         ).contains(el.attribute.identifier)
                     }
                 )

@@ -14,5 +14,6 @@ data class PresentationRequestData (
     val document: Document,
     val documentRequest: DocumentRequest,
     val docType : String,
-    val trustPoint : TrustPoint?
+    val trustPoint : TrustPoint?,
+    val requestInfo: Map<String, ByteArray>? = null // Ensure requestInfo is included
 )

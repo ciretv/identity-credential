@@ -75,6 +75,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import com.android.identity_credential.wallet.presentation.RequestInfoManager
 
 class NoMatchingDocumentException(message: String): Exception(message) {}
 
@@ -349,6 +350,12 @@ class PresentationActivity : FragmentActivity() {
                                 deviceRequestByteArray!!,
                                 deviceRetrievalHelper!!.sessionTranscript
                             ).parse()
+
+                            // set requestInfo global
+                            val requestInfo = deviceRequest.docRequests.firstOrNull()?.requestInfo
+                            RequestInfoManager.setRequestInfo(requestInfo)
+                            val docType = deviceRequest.docRequests.firstOrNull()?.docType
+                            RequestInfoManager.setDocType(docType.toString())
 
                             // generates the DeviceResponse from all the [Document] CBOR bytes of docRequests
                             val deviceResponseGenerator =

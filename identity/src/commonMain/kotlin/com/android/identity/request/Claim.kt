@@ -10,5 +10,6 @@ import com.android.identity.documenttype.DocumentAttribute
  */
 sealed class Claim(
     open val displayName: String,
+    open val dataElementValue: String,
     open val attribute: DocumentAttribute?
 )

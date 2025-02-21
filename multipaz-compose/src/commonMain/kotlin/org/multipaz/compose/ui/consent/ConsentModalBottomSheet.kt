@@ -450,12 +450,21 @@ private fun DataElementView(
             )
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(
-            text = claim.displayName,
-            fontWeight = FontWeight.Normal,
-            style = MaterialTheme.typography.bodySmall
-        )
+        if(claim.displayName == "transaction_amount" || claim.displayName == "transaction_currency_code" || claim.displayName == "merchant_name"){
+            Text(
+                text = "${claim.displayName} = ${claim.dataElementValue}",
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodySmall
+            )
+        } else {
+            Text(
+                text = claim.displayName,
+                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
+    print(claim)
 }
 
 @Composable

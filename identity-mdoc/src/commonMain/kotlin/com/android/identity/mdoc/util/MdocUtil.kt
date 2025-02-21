@@ -632,6 +632,7 @@ object MdocUtil {
      * @param mdocCredential if set, the returned list is filtered so it only references data
      *     elements available in the credential.
      */
+
     fun generateClaims(
         docType: String,
         requestedData: Map<String, List<Pair<String, Boolean>>>,
@@ -642,21 +643,42 @@ object MdocUtil {
         val ret = mutableListOf<MdocClaim>()
         for ((namespaceName, listOfDe) in requestedData) {
             for ((dataElementName, intentToRetain) in listOfDe) {
-                val attribute =
-                    mdocDocumentType?.namespaces
-                        ?.get(namespaceName)
-                        ?.dataElements
-                        ?.get(dataElementName)
-                        ?.attribute
-                ret.add(
-                    MdocClaim(
-                        attribute?.displayName ?: dataElementName,
-                        attribute,
-                        namespaceName,
-                        dataElementName,
-                        intentToRetain
+                if (dataElementName == "transaction_amount") {
+                    val attribute =
+                        mdocDocumentType?.namespaces
+                            ?.get(namespaceName)
+                            ?.dataElements
+                            ?.get(dataElementName)
+                            ?.attribute
+                    ret.add(
+                        MdocClaim(
+                            attribute?.displayName ?: dataElementName,
+                            dataElementValue = "999",
+                            attribute,
+                            namespaceName,
+                            dataElementName,
+                            intentToRetain
+                        )
                     )
-                )
+                    print(requestedData)
+                } else {
+                    val attribute =
+                        mdocDocumentType?.namespaces
+                            ?.get(namespaceName)
+                            ?.dataElements
+                            ?.get(dataElementName)
+                            ?.attribute
+                    ret.add(
+                        MdocClaim(
+                            attribute?.displayName ?: dataElementName,
+                            dataElementValue = "",
+                            attribute,
+                            namespaceName,
+                            dataElementName,
+                            intentToRetain
+                        )
+                    )
+                }
             }
         }
         return filterConsentFields(ret, mdocCredential)

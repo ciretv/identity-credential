@@ -11,11 +11,12 @@ import com.android.identity.documenttype.DocumentAttribute
  */
 data class MdocClaim(
     override val displayName: String,
+    override val dataElementValue: String,
     override val attribute: DocumentAttribute?,
     val namespaceName: String,
     val dataElementName: String,
     val intentToRetain: Boolean
-) : Claim(displayName, attribute) {
+) : Claim(displayName, dataElementValue, attribute) {
     companion object {
     }
 }

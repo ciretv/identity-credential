@@ -1069,6 +1069,7 @@ private fun VcClaim.Companion.generateClaims(
         ret.add(
             VcClaim(
                 attribute?.displayName ?: claimName,
+                dataElementValue = "",
                 attribute,
                 claimName
             )

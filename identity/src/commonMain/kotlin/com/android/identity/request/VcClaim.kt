@@ -9,9 +9,10 @@ import com.android.identity.documenttype.DocumentAttribute
  */
 data class VcClaim(
     override val displayName: String,
+    override val dataElementValue: String,
     override val attribute: DocumentAttribute?,
     val claimName: String
-) : Claim(displayName, attribute) {
+) : Claim(displayName, dataElementValue, attribute) {
     companion object {
     }
 }

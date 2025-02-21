@@ -39,34 +39,54 @@ fun defaultGraph(
             "Accept",
             "Reject",
         )
-        choice(
-            id = "path",
-            message = "Scan ePassport/eID?",
-            assets = mapOf(),
-            acceptButtonText = "Continue"
-        ) {
-            on(id = "hardcoded", text = "No, create document with hard-coded data") {
-                if (developerModeEnabled) {
-                    choice(
-                        id = "devmode_image_format",
-                        message = "Choose format for images in document $devNotice",
-                        assets = devAssets,
-                        acceptButtonText = "Continue"
-                    ) {
-                        on(id = "devmode_image_format_jpeg", text = "JPEG") {}
-                        on(id = "devmode_image_format_jpeg2000", text = "JPEG 2000") {}
+        // Show ePassport / eID scan options if not payment authentication
+        if (tosText.contains("Payment Authentication")) {
+            // Automatically select the "hardcoded" option without showing a choice
+            choice(
+                id = "path",
+                message = "Skipping selection: Hardcoded data will be used",
+                assets = mapOf(),
+                acceptButtonText = "Continue"
+            ) {
+                on(id = "hardcoded", text = "No, create document with hard-coded data") {
+                }
+            }
+        } else {
+            choice(
+                id = "path",
+                message = "Scan ePassport/eID?",
+                assets = mapOf(),
+                acceptButtonText = "Continue"
+            ) {
+                on(id = "hardcoded", text = "No, create document with hard-coded data") {
+                    if (developerModeEnabled) {
+                        choice(
+                            id = "devmode_image_format",
+                            message = "Choose format for images in document $devNotice",
+                            assets = devAssets,
+                            acceptButtonText = "Continue"
+                        ) {
+                            on(id = "devmode_image_format_jpeg", text = "JPEG") {}
+                            on(id = "devmode_image_format_jpeg2000", text = "JPEG 2000") {}
+                        }
                     }
                 }
-            }
-            on(id = "passport", text = "Yes, derive the document from ePassport/eID") {
-                icaoTunnel("tunnel", listOf(1, 2, 7), true) {
-                    whenChipAuthenticated {}
-                    whenActiveAuthenticated {}
-                    whenNotAuthenticated {}
+                on(id = "passport", text = "Yes, derive the document from ePassport/eID") {
+                    icaoTunnel("tunnel", listOf(1, 2, 7), true) {
+                        whenChipAuthenticated {}
+                        whenActiveAuthenticated {}
+                        whenNotAuthenticated {}
+                    }
                 }
-            }
-            on(id = "germanEid", text = "Yes, derive the document from PIN-protected German eID") {
-                eId("germanEidCard", "https://test.governikus-eid.de/AusweisAuskunft/WebServiceRequesterServlet")
+                on(
+                    id = "germanEid",
+                    text = "Yes, derive the document from PIN-protected German eID"
+                ) {
+                    eId(
+                        "germanEidCard",
+                        "https://test.governikus-eid.de/AusweisAuskunft/WebServiceRequesterServlet"
+                    )
+                }
             }
         }
         if (walletApplicationCapabilities.directAccessSupported) {

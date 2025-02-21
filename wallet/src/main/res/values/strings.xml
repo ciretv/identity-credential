@@ -452,6 +452,16 @@
     ]]>
     </string>
 
+    <!-- Payment Authentication tos-->
+    <string name="payment_authentication_issuing_authority_tos"><![CDATA[
+        <img src=\'logo.png\' style=\'height: 150px; display: block; margin: auto\'
+           alt=\'Payment Authentication\'/>
+        <h2>Provisioning a Payment Authentication attestation</h2>
+        <p>In the following screens, information will be collected to provision a Payment Authentication attestation.</p>
+        <p>The created Payment Authentication attestation will be bound to this device.</p>
+    ]]>
+    </string>
+
     <string name="utopia_local_issuing_authority_pid_tos"><![CDATA[
         <img src=\'logo.png\' style=\'height: 150px; display: block; margin: auto\'
            alt=\'State of Utopia Government\'/>

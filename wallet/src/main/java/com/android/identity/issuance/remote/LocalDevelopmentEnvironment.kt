@@ -108,8 +108,8 @@ internal class LocalDevelopmentEnvironment(
                 "issuingAuthority.payment_authentication.name" -> "Payment Authentication (Local)"
                 "issuingAuthority.payment_authentication.type" -> "PaymentAuthentication"
                 "issuingAuthority.payment_authentication.description" -> "Payment Authentication (Local)"
-                "issuingAuthority.payment_authentication.logo" -> "utopia_local_photoid/logo.png"
-                "issuingAuthority.payment_authentication.cardArt" -> "utopia_local_photoid/card_art.png"
+                "issuingAuthority.payment_authentication.logo" -> "payment_authentication/logo.png"
+                "issuingAuthority.payment_authentication.cardArt" -> "payment_authentication/card_art.png"
                 "issuingAuthority.payment_authentication.requireUserAuthenticationToViewDocument" -> "false"
                 "cloudSecureAreaUrl" -> settingsModel.cloudSecureAreaUrl.value
                 else -> null
@@ -235,12 +235,12 @@ internal class LocalDevelopmentEnvironment(
                     )
                 "payment_authentication/card_art.png" ->
                     bitmapData(
-                        R.drawable.utopia_driving_license_card_art,
+                        R.drawable.es_card_art,
                         Bitmap.CompressFormat.PNG
                     )
                 "payment_authentication/logo.png" ->
                     bitmapData(
-                        R.drawable.utopia_dmv_issuing_authority_logo,
+                        R.drawable.es_icon,
                         Bitmap.CompressFormat.PNG
                     )
                 else -> null
@@ -266,7 +266,7 @@ internal class LocalDevelopmentEnvironment(
                 "generic/tos.html" ->
                     context.resources.getString(R.string.generic_issuing_authority_tos)
                 "payment_authentication/tos.html" ->
-                    context.resources.getString(R.string.utopia_local_issuing_authority_tos)
+                    context.resources.getString(R.string.payment_authentication_issuing_authority_tos)
                 else -> null
             }
         }

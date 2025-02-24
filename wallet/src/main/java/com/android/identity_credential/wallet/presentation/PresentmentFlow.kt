@@ -39,7 +39,7 @@ import com.android.identity.request.VcRequest
 import com.android.identity.trustmanagement.TrustPoint
 import com.android.identity_credential.wallet.ui.prompt.consent.showConsentPrompt
 import com.android.identity_credential.wallet.ui.prompt.passphrase.showPassphrasePrompt
-import com.android.identity_credential.wallet.presentation.RequestInfoManager
+import com.android.identity.shared.GlobalData
 
 const val TAG = "PresentmentFlow"
 const val MAX_PASSPHRASE_ATTEMPTS = 3
@@ -283,8 +283,8 @@ private suspend fun mdocSignAndGenerate(
         )
 
     // Retrieve requestInfo
-    val requestInfo = RequestInfoManager.getRequestInfo()
-    val docType = RequestInfoManager.getDocType()
+    val requestInfo = GlobalData.requestInfo
+    val docType = GlobalData.docType
 
     if (requestInfo != null && docType == "payment.auth.1") {
         println("Request Info: $requestInfo")
@@ -298,8 +298,6 @@ private suspend fun mdocSignAndGenerate(
                 null
             }
         }
-        println("Decoded Request Info: $decodedRequestInfo")
-
         // Define keys
         val transactionAmountKey = "transaction_amount"
         val transactionCurrencyKey = "transaction_currency_code"

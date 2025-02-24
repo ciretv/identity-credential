@@ -50,6 +50,7 @@ import com.android.identity.request.Requester
 import com.android.identity.util.Logger
 import kotlinx.datetime.Instant
 import kotlin.random.Random
+import com.android.identity.shared.GlobalData
 
 /**
  * Utilities for working with mdoc data structures.
@@ -643,7 +644,22 @@ object MdocUtil {
         val ret = mutableListOf<MdocClaim>()
         for ((namespaceName, listOfDe) in requestedData) {
             for ((dataElementName, intentToRetain) in listOfDe) {
-                if (dataElementName == "transaction_amount") {
+                // Show data element values in case of transaction amount, currency code, or merchant name
+                if (dataElementName == "transaction_amount" || dataElementName == "transaction_currency_code" || dataElementName == "merchant_name") {
+                    val requestInfo = GlobalData.requestInfo
+                    val decodedRequestInfo = requestInfo?.mapValues { (_, byteArray) ->
+                    try {
+                            Cbor.decode(byteArray) // Decode CBOR
+                        } catch (e: Exception) {
+                            println("Error decoding CBOR: ${e.message}")
+                            null
+                        }
+                    }
+                    // Extract relevant requestInfo
+                    val dynamicRequestData = decodedRequestInfo?.get(dataElementName)
+                    ?.toString()
+                        ?.removePrefix("Tstr(\"")
+                        ?.removeSuffix("\")") ?: "999"
                     val attribute =
                         mdocDocumentType?.namespaces
                             ?.get(namespaceName)
@@ -653,7 +669,7 @@ object MdocUtil {
                     ret.add(
                         MdocClaim(
                             attribute?.displayName ?: dataElementName,
-                            dataElementValue = "999",
+                            dataElementValue = dynamicRequestData,
                             attribute,
                             namespaceName,
                             dataElementName,

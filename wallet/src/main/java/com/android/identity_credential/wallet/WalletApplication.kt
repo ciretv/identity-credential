@@ -231,20 +231,29 @@ class WalletApplication : Application() {
             certificateResourceId = R.raw.owf_identity_credential_reader_cert,
             displayIconResourceId = R.drawable.owf_identity_credential_reader_display_icon
         )
+        // Configured with reader CAs for 2025 RDW test event
         for (certResourceId in listOf(
-            R.raw.austroad_test_event_reader_credence_id,
-            R.raw.austroad_test_event_reader_fast_enterprises,
-            R.raw.austroad_test_event_reader_fime_reader_ca1,
-            R.raw.austroad_test_event_reader_fime_reader_ca2,
-            R.raw.austroad_test_event_reader_idemia,
-            R.raw.austroad_test_event_reader_mattr_labs,
-            R.raw.austroad_test_event_reader_nist,
-            R.raw.austroad_test_event_reader_panasonic_root,
-            R.raw.austroad_test_event_reader_panasonic_remote_root,
-            R.raw.austroad_test_event_reader_scytales,
-            R.raw.austroad_test_event_reader_snsw_labs,
-            R.raw.austroad_test_event_reader_thales_root,
-            R.raw.austroad_test_event_reader_zetes,
+            R.raw.rdw_test_event_2025_animo_reader_ca,
+            R.raw.rdw_test_event_2025_bundesdruckerei_reader_ca,
+            R.raw.rdw_test_event_2025_clr_labs_reader_ca,
+            R.raw.rdw_test_event_2025_fast_enterprises_reader_ca,
+            R.raw.rdw_test_event_2025_fime_reader_ca_1,
+            R.raw.rdw_test_event_2025_fime_reader_ca_2,
+            R.raw.rdw_test_event_2025_google_reader_ca,
+            R.raw.rdw_test_event_2025_idakto_reader_ca,
+            R.raw.rdw_test_event_2025_idemia_reader_ca,
+            R.raw.rdw_test_event_2025_lapid_reader_ca,
+            R.raw.rdw_test_event_2025_mattr_reader_ca,
+            R.raw.rdw_test_event_2025_nearform_reader_ca,
+            R.raw.rdw_test_event_2025_panasonic_reader,
+            R.raw.rdw_test_event_2025_scytales_reader_ca,
+            R.raw.rdw_test_event_2025_spruceid_reader_ca,
+            R.raw.rdw_test_event_2025_thales_root_ca,
+            R.raw.rdw_test_event_2025_thales_reader_ca_1,
+            R.raw.rdw_test_event_2025_thales_reader_ca_2,
+            R.raw.rdw_test_event_2025_toppan_reader_ca,
+            R.raw.rdw_test_event_2025_zetes_reader_ca,
+            R.raw.es_reader_ca
         )) {
             val pemEncodedCert = resources.openRawResource(certResourceId).readBytes().decodeToString()
             Logger.i(TAG, "PEMEncoded\n$pemEncodedCert")
@@ -260,9 +269,9 @@ class WalletApplication : Application() {
         }
 
         // init TrustManager for issuers (used in reader)
-        //
+        // Configured with VICAL for 2025 RDW test event
         val signedVical = SignedVical.parse(
-            resources.openRawResource(R.raw.austroad_test_event_vical_20241002).readBytes()
+            resources.openRawResource(R.raw.rdw_test_event_2025_vical).readBytes()
         )
         for (certInfo in signedVical.vical.certificateInfos) {
             val cert = X509Cert(certInfo.certificate)

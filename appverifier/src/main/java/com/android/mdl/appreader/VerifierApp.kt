@@ -65,8 +65,9 @@ class VerifierApp : Application() {
         KeysAndCertificates.getTrustedIssuerCertificates(this).forEach {
             trustManagerInstance.addTrustPoint(TrustPoint(X509Cert(it.encoded)))
         }
+        // Configured for 2025 RDW test event
         val signedVical = SignedVical.parse(
-            resources.openRawResource(R.raw.austroad_test_event_vical_20241002).readBytes()
+            resources.openRawResource(R.raw.rdw_test_event_2025_vical).readBytes()
         )
         for (certInfo in signedVical.vical.certificateInfos) {
             val cert = X509Cert(certInfo.certificate)

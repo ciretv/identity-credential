@@ -31,6 +31,7 @@ import com.android.identity.cose.CoseNumberLabel
 import com.android.identity.crypto.Algorithm
 import com.android.identity.crypto.X509CertChain
 import com.android.identity.crypto.EcPrivateKey
+import com.android.identity.shared.GlobalData
 
 /**
  * Helper class for building `DeviceRequest` [CBOR](http://cbor.io/)
@@ -70,19 +71,37 @@ class DeviceRequestGenerator(
         val updatedRequestInfo = requestInfo?.toMutableMap() ?: mutableMapOf()
 
         if (docType == "payment.auth.1" && itemsToRequest["payment.auth.1"]?.containsKey("payment_scheme") == true){
-            updatedRequestInfo["merchant_name"] = encode("ShoeXYZ".toDataItem())
-            updatedRequestInfo["payment_scheme"] = encode("V".toDataItem())
-            updatedRequestInfo["payment_type"] = encode("C".toDataItem())
+            val merchantName = GlobalData.requestMerchantName ?: "Unknown Merchant"
+            updatedRequestInfo["merchant_name"] = encode(merchantName.toDataItem())
+
+            val trxAmount = GlobalData.requestTransactionAmount ?: "999"
+            updatedRequestInfo["transaction_amount"] = encode(trxAmount.toDataItem())
+
+            val trxCurrencyCode = GlobalData.requestTransactionCurrency ?: "USD"
+            updatedRequestInfo["transaction_currency_code"] = encode(trxCurrencyCode.toDataItem())
+
+            val paymentScheme = GlobalData.requestScheme ?: "V"
+            updatedRequestInfo["payment_scheme"] = encode(paymentScheme.toDataItem())
+
+            val paymentType = GlobalData.requestType ?: "C"
+            updatedRequestInfo["payment_type"] = encode(paymentType.toDataItem())
+
+
             updatedRequestInfo["payment_auth_number"] = encode("4111112014267661".toDataItem())
-            updatedRequestInfo["payment_auth_expiry"] = encode("2027-09".toDataItem())
-            updatedRequestInfo["transaction_amount"] = encode("111".toDataItem())
-            updatedRequestInfo["transaction_currency_code"] = encode("EUR".toDataItem())
+            updatedRequestInfo["payment_auth_expiry"] = encode("09/27".toDataItem())
+
         } else if (docType == "payment.auth.1"){
-            updatedRequestInfo["merchant_name"] = encode("ShoeXYZ".toDataItem())
+            val merchantName = GlobalData.requestMerchantName ?: "Unknown Merchant"
+            updatedRequestInfo["merchant_name"] = encode(merchantName.toDataItem())
+
+            val trxAmount = GlobalData.requestTransactionAmount ?: "999"
+            updatedRequestInfo["transaction_amount"] = encode(trxAmount.toDataItem())
+
+            val trxCurrencyCode = GlobalData.requestTransactionCurrency ?: "USD"
+            updatedRequestInfo["transaction_currency_code"] = encode(trxCurrencyCode.toDataItem())
+
             updatedRequestInfo["payment_auth_number"] = encode("4111112014267661".toDataItem())
-            updatedRequestInfo["payment_auth_expiry"] = encode("2027-09".toDataItem())
-            updatedRequestInfo["transaction_amount"] = encode("111".toDataItem())
-            updatedRequestInfo["transaction_currency_code"] = encode("EUR".toDataItem())
+            updatedRequestInfo["payment_auth_expiry"] = encode("09/27".toDataItem())
         }
 
         val nsBuilder = CborMap.builder().apply {

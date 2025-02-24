@@ -1,5 +1,8 @@
 package com.android.mdl.appreader.home
 
+import android.content.Context
+import android.widget.EditText
+import android.app.AlertDialog
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.CubicBezierEasing
@@ -9,15 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,16 +21,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,13 +46,17 @@ fun HomeScreen(
     onRequestPreviewProtocol: (request: RequestingDocumentState) -> Unit,
     onRequestOpenId4VPProtocol: (request: RequestingDocumentState) -> Unit,
 ) {
+    val context = LocalContext.current
+    var selectionText by remember { mutableStateOf("Select a document request") }
+    var dropDownOpened by remember { mutableStateOf(false) }
+
     Box(modifier = modifier) {
         NfcLabel(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.Center),
         )
-        var dropDownOpened by remember { mutableStateOf(false) }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -73,6 +68,7 @@ fun HomeScreen(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(8.dp))
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,7 +80,7 @@ fun HomeScreen(
                     .clickable { dropDownOpened = !dropDownOpened },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                val text = state.currentRequestSelection.ifBlank { "Tap to create request" }
+                val text = selectionText.ifBlank { "Tap to create request" }
                 MarqueeText(
                     modifier = Modifier
                         .padding(start = 12.dp)
@@ -99,6 +95,7 @@ fun HomeScreen(
                 )
             }
         }
+
         CreateRequestDropDown(
             modifier = Modifier
                 .padding(top = 100.dp, start = 16.dp, end = 16.dp)
@@ -112,17 +109,18 @@ fun HomeScreen(
                 dropDownOpened = false
             }
         )
+
         Column(
             modifier = Modifier.align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                modifier = Modifier
-                    .padding(8.dp),
+                modifier = Modifier.padding(8.dp),
                 onClick = { onRequestQRCodePreview(state) }
             ) {
                 Text(text = "Scan QR Code")
             }
+
             Row(
                 modifier = Modifier.fillMaxWidth().padding(5.dp)
             ) {
@@ -139,6 +137,23 @@ fun HomeScreen(
                     Button(onClick = { onRequestOpenId4VPProtocol(state)}) {
                         Text(textAlign = TextAlign.Center, text = "Request Credentials (OpenID4VP)")
                     }
+                }
+            }
+        }
+        // Trigger input dialogs when payment authentication is selected
+        LaunchedEffect(state.paymentAuthentication_sca.isSelected) {
+            if (state.paymentAuthentication_sca.isSelected) {
+                state.getCurrentRequestSelection(context) { updatedSelection ->
+                    selectionText = updatedSelection
+                }
+            }
+        }
+
+        // Trigger input dialogs when payment_initiation is selected
+        LaunchedEffect(state.payment_initiation.isSelected) {
+            if (state.payment_initiation.isSelected) {
+                state.getCurrentRequestSelection(context) { updatedSelection ->
+                    selectionText = updatedSelection
                 }
             }
         }
@@ -209,7 +224,6 @@ private fun HomeScreenPreview() {
             onRequestQRCodePreview = {},
             onRequestPreviewProtocol = {},
             onRequestOpenId4VPProtocol = {}
-
         )
     }
 }

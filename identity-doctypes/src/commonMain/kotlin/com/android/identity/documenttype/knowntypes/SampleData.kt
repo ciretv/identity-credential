@@ -19,7 +19,7 @@ internal object SampleData {
     const val GIVEN_NAMES_NATIONAL_CHARACTER = "Ерика"
     const val FAMILY_NAME_NATIONAL_CHARACTER = "Бабіак"
 
-    const val BIRTH_DATE = "1971-09-01"
+    const val BIRTH_DATE = "1986-03-14"
     const val BIRTH_COUNTRY = "ZZ"  // Note: ZZ is a user-assigned country-code as per ISO 3166-1
     const val ISSUE_DATE = "2024-03-15"
     const val EXPIRY_DATE = "2028-09-01"
@@ -35,7 +35,7 @@ internal object SampleData {
     const val SEX_ISO218 = 2
     const val HEIGHT_CM = 175
     const val WEIGHT_KG = 68
-    const val BIRTH_PLACE = "Sample City"
+    const val BIRTH_PLACE = "The Netherlands, Leiden"
     const val BIRTH_STATE = "Sample State"
     const val BIRTH_CITY = "Sample City"
     const val RESIDENT_ADDRESS = "Sample Street 123, 12345 Sample City, Sample State, Utopia"

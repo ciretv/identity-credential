@@ -704,6 +704,7 @@ class IssuingAuthorityState(
 
         val credType = documentTypeRepository.getDocumentTypeForMdoc(EUPID_DOCTYPE)!!
         val staticData: NameSpacedData
+        val staticDataCompressed: NameSpacedData
 
         val path = (collectedEvidence["path"] as EvidenceResponseQuestionMultipleChoice).answerId
         if (path == "hardcoded") {
@@ -711,45 +712,8 @@ class IssuingAuthorityState(
             val jpeg2k = imageFormat is EvidenceResponseQuestionMultipleChoice &&
                     imageFormat.answerId == "devmode_image_format_jpeg2000"
             staticData = fillInSampleData(resources, jpeg2k, credType).build()
-        } else if (path == "germanEid") {
-            // Make sure we set at least all the mandatory data elements
-            val germanEid = collectedEvidence["germanEidCard"] as EvidenceResponseGermanEidResolved
-            val personalData = getPersonalData(env, germanEid)
-            val firstName = personalData["GivenNames"]!!.jsonPrimitive.content
-            val lastName = personalData["FamilyNames"]!!.jsonPrimitive.content
-            val dateOfBirth = parseDateOfBirth(personalData["DateOfBirth"]!!.jsonPrimitive.content)
-            val timeZone = TimeZone.currentSystemDefault()
-            val dateOfBirthInstant = dateOfBirth.atStartOfDayIn(timeZone)
-            // over 18/21 is calculated purely based on calendar date (not based on the birth time zone)
-            val ageOver18 = now > dateOfBirthInstant.plus(18, DateTimeUnit.YEAR, timeZone)
-            val ageOver21 = now > dateOfBirthInstant.plus(21, DateTimeUnit.YEAR, timeZone)
-
-            staticData = NameSpacedData.Builder()
-                .putEntryString(EUPID_NAMESPACE, "family_name", lastName)
-                .putEntryString(EUPID_NAMESPACE, "given_name", firstName)
-                .putEntry(EUPID_NAMESPACE, "birth_date",
-                    Cbor.encode(dateOfBirth.toDataItemFullDate()))
-                .putEntryNumber(EUPID_NAMESPACE, "age_in_years", dateOfBirth.yearsUntil(now.toLocalDateTime(timeZone).date).toLong())
-                .putEntryNumber(EUPID_NAMESPACE, "age_birth_year", dateOfBirth.year.toLong())
-                .putEntryBoolean(EUPID_NAMESPACE, "age_over_18", ageOver18)
-                .putEntryBoolean(EUPID_NAMESPACE, "age_over_21", ageOver21)
-                // not included: family_name_birth, given_name_birth, birth_place, birth_country,
-                // birth_state, birth_city, resident_address, resident_country, resident_state,
-                // resident_city, resident_postal_code, resident_street, resident_house_number,
-                // issuing_jurisdiction,
-                .putEntryString(EUPID_NAMESPACE, "nationality", "ZZ")
-                .putEntry(EUPID_NAMESPACE, "issuance_date",
-                    Cbor.encode(issueDate.toDataItemDateTimeString()))
-                .putEntry(EUPID_NAMESPACE, "expiry_date",
-                    Cbor.encode(expiryDate.toDataItemDateTimeString())
-                )
-                .putEntryString(EUPID_NAMESPACE, "issuing_authority",
-                    issuingAuthorityName)
-                .putEntryString(EUPID_NAMESPACE, "document_number", "1234567890")
-                .putEntryString(EUPID_NAMESPACE, "administrative_number", "123456789")
-                .putEntryString(EUPID_NAMESPACE, "issuing_country", "ZZ")
-                .build()
-        } else { // todo
+            staticDataCompressed = staticData
+        } else {
             val icaoPassiveData = collectedEvidence["passive"]
             val icaoTunnelData = collectedEvidence["tunnel"]
             val mrtdData = if (icaoTunnelData is EvidenceResponseIcaoNfcTunnelResult)
@@ -758,6 +722,7 @@ class IssuingAuthorityState(
                 MrtdNfcData(icaoPassiveData.dataGroups, icaoPassiveData.securityObject)
             else
                 throw IllegalStateException("Should not happen")
+
             val decoded = MrtdNfcDataDecoder().decode(mrtdData)
             val firstName = decoded.firstName
             val lastName = decoded.lastName
@@ -766,45 +731,80 @@ class IssuingAuthorityState(
                 "FEMALE" -> 2L
                 else -> 0L
             }
+
             val timeZone = TimeZone.currentSystemDefault()
-            val dateOfBirth = LocalDate.parse(input = decoded.dateOfBirth,
+            val dateOfBirth = LocalDate.parse(
+                input = decoded.dateOfBirth,
                 format = LocalDate.Format {
-                    // date of birth cannot be in future
                     yearTwoDigits(now.toLocalDateTime(timeZone).year - 99)
                     monthNumber()
                     dayOfMonth()
-                })
+                }
+            )
             val dateOfBirthInstant = dateOfBirth.atStartOfDayIn(timeZone)
-            // over 18/21 is calculated purely based on calendar date (not based on the birth time zone)
+
             val ageOver18 = now > dateOfBirthInstant.plus(18, DateTimeUnit.YEAR, timeZone)
             val ageOver21 = now > dateOfBirthInstant.plus(21, DateTimeUnit.YEAR, timeZone)
 
-            // Make sure we set at least all the mandatory data elements
-            staticData = NameSpacedData.Builder()
+            val portrait = decoded.photo ?: resources.getRawResource("img_erika_portrait.jpg")!!
+            val portraitCompressed = decoded.photo ?: resources.getRawResource("img_erika_portrait_compressed.jpg")!!
+            val signatureOrUsualMark = decoded.signature ?: resources.getRawResource("img_erika_signature.jpg")!!
+
+            val nsBuilder = NameSpacedData.Builder()
                 .putEntryString(EUPID_NAMESPACE, "family_name", lastName)
                 .putEntryString(EUPID_NAMESPACE, "given_name", firstName)
-                .putEntry(EUPID_NAMESPACE, "birth_date",
-                    Cbor.encode(dateOfBirth.toDataItemFullDate()))
-                .putEntryNumber(EUPID_NAMESPACE, "age_in_years", dateOfBirth.yearsUntil(now.toLocalDateTime(timeZone).date).toLong())
-                .putEntryNumber(EUPID_NAMESPACE, "age_birth_year", dateOfBirth.year.toLong())
-                .putEntryBoolean(EUPID_NAMESPACE, "age_over_18", ageOver18)
-                .putEntryBoolean(EUPID_NAMESPACE, "age_over_21", ageOver21)
-                // not included: family_name_birth, given_name_birth, birth_place, birth_country,
-                // birth_state, birth_city, resident_address, resident_country, resident_state,
-                // resident_city, resident_postal_code, resident_street, resident_house_number,
-                // issuing_jurisdiction,
-                .putEntryNumber(EUPID_NAMESPACE, "gender", sex)
-                .putEntryString(EUPID_NAMESPACE, "nationality", "ZZ")
-                .putEntry(EUPID_NAMESPACE, "issuance_date",
-                    Cbor.encode(issueDate.toDataItemDateTimeString()))
-                .putEntry(EUPID_NAMESPACE, "expiry_date",
+                .putEntry(
+                    EUPID_NAMESPACE,
+                    "birth_date",
+                    Cbor.encode(dateOfBirth.toDataItemFullDate())
+                )
+                .putEntryString(EUPID_NAMESPACE, "birth_place", "The Netherlands, Leiden")
+                .putEntryString(EUPID_NAMESPACE, "nationality", "NL")
+                .putEntryString(EUPID_NAMESPACE, "resident_address", "De Heyderweg 2, Leiden")
+                .putEntryString(EUPID_NAMESPACE, "resident_country", "NL")
+                .putEntryString(EUPID_NAMESPACE, "resident_state", "Zuid-Holland")
+                .putEntryString(EUPID_NAMESPACE, "resident_city", "Leiden")
+                .putEntryString(EUPID_NAMESPACE, "resident_postal_code", "2314 XZ")
+                .putEntryString(EUPID_NAMESPACE, "resident_street", "De Heyderweg")
+                .putEntryString(EUPID_NAMESPACE, "resident_house_number", "2")
+                .putEntryString(EUPID_NAMESPACE, "personal_administrative_number", "9876543210")
+                .putEntry(
+                    EUPID_NAMESPACE,
+                    "portrait_capture_date",
+                    Cbor.encode("2020-03-14".toDataItemDateTimeString())
+                )
+                .putEntryString(EUPID_NAMESPACE, "family_name_birth", "Mustermann")
+                .putEntryString(EUPID_NAMESPACE, "given_name_birth", "Erika")
+                .putEntryNumber(EUPID_NAMESPACE, "sex", sex)
+                .putEntryString(EUPID_NAMESPACE, "email_address", "erika@mustermann.nl")
+                .putEntryString(EUPID_NAMESPACE, "mobile_phone_number", "+31717993005")
+                .putEntry(
+                    EUPID_NAMESPACE,
+                    "expiry_date",
                     Cbor.encode(expiryDate.toDataItemDateTimeString())
                 )
-                .putEntryString(EUPID_NAMESPACE, "issuing_authority",
-                    issuingAuthorityName)
-                .putEntryString(EUPID_NAMESPACE, "document_number", "1234567890")
-                .putEntryString(EUPID_NAMESPACE, "administrative_number", "123456789")
+                .putEntryString(EUPID_NAMESPACE, "issuing_authority", issuingAuthorityName)
                 .putEntryString(EUPID_NAMESPACE, "issuing_country", "ZZ")
+                .putEntryString(EUPID_NAMESPACE, "document_number", "0123456789")
+                .putEntry(
+                    EUPID_NAMESPACE,
+                    "issuance_date",
+                    Cbor.encode(issueDate.toDataItemDateTimeString())
+                )
+                .putEntryBoolean(EUPID_NAMESPACE, "age_over_18", ageOver18)
+                .putEntryNumber(
+                    EUPID_NAMESPACE,
+                    "age_in_years",
+                    dateOfBirth.yearsUntil(now.toLocalDateTime(timeZone).date).toLong()
+                )
+                .putEntryNumber(EUPID_NAMESPACE, "age_birth_year", dateOfBirth.year.toLong())
+
+            staticData = nsBuilder
+                .putEntryByteString(EUPID_NAMESPACE, "portrait", portrait.toByteArray()) // ✅ Corrected to match mDL
+                .build()
+
+            staticDataCompressed = nsBuilder
+                .putEntryByteString(EUPID_NAMESPACE, "portrait", portraitCompressed.toByteArray()) // ✅ Matches mDL approach
                 .build()
         }
 
@@ -814,7 +814,7 @@ class IssuingAuthorityState(
             typeDisplayName = "EU Personal ID",
             cardArt = art.toByteArray(),
             requireUserAuthenticationToViewDocument =
-                settings.getBool("${prefix}.requireUserAuthenticationToViewDocument"),
+            settings.getBool("${prefix}.requireUserAuthenticationToViewDocument"),
             mdocConfiguration = MdocDocumentConfiguration(
                 docType = EUPID_DOCTYPE,
                 staticData = staticData,

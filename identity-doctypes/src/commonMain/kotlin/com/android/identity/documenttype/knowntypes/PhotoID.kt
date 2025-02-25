@@ -36,7 +36,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                SampleData.FAMILY_NAME.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -46,7 +46,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                SampleData.GIVEN_NAME.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAME.toDataItem()
             )
             // Note, this is more complicated than mDL and EU PID, according to ISO/IEC 23220-2
             // clause "6.3.1.1.3 Date of birth as either uncertain or approximate, or both"
@@ -70,7 +70,7 @@ object PhotoID {
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
                 CborMap.builder()
-                    .put("birth_date", LocalDate.parse(SampleData.BIRTH_DATE).toDataItemFullDate())
+                    .put("birth_date", LocalDate.parse(RDW_test_event_SampleData.BIRTH_DATE).toDataItemFullDate())
                     .end()
                     .build()
             )
@@ -82,7 +82,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.ACCOUNT_BOX,
-                SampleData.PORTRAIT_BASE64URL.fromBase64Url().toDataItem()
+                RDW_test_event_SampleData.PORTRAIT_BASE64URL.fromBase64Url().toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Date,
@@ -92,7 +92,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.DATE_RANGE,
-                LocalDate.parse(SampleData.ISSUE_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.ISSUANCE_DATE_PHOTOID).toDataItemFullDate()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Date,
@@ -102,7 +102,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.CALENDAR_CLOCK,
-                LocalDate.parse(SampleData.EXPIRY_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.EXPIRY_DATE_PHOTOID).toDataItemFullDate()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -112,7 +112,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_AUTHORITY_PHOTO_ID.toDataItem()
+                RDW_test_event_SampleData.ISSUING_AUTHORITY_PHOTO_ID.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -122,7 +122,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_COUNTRY.toDataItem()
+                RDW_test_event_SampleData.ISSUING_COUNTRY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -132,7 +132,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_18.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_18.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Number,
@@ -142,7 +142,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_IN_YEARS.toDataItem()
+                RDW_test_event_SampleData.AGE_IN_YEARS.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -152,7 +152,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_13.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_13.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -162,7 +162,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_16.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_16.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -172,7 +172,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_18.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_18.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -182,7 +182,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_21.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_21.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -192,7 +192,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_25.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_25.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -202,7 +202,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_60.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_60.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -212,7 +212,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_62.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_62.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -222,7 +222,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_65.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_65.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -232,7 +232,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_68.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_68.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Number,
@@ -242,7 +242,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_BIRTH_YEAR.toDataItem()
+                RDW_test_event_SampleData.AGE_BIRTH_YEAR.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Date,
@@ -252,7 +252,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.TODAY,
-                LocalDate.parse(SampleData.PORTRAIT_CAPTURE_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.PORTRAIT_CAPTURE_DATE).toDataItemFullDate()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -262,7 +262,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PLACE,
-                SampleData.BIRTH_PLACE.toDataItem()
+                RDW_test_event_SampleData.BIRTH_PLACE.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -272,7 +272,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                null
+                RDW_test_event_SampleData.NAME_AT_BIRTH.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -282,7 +282,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_ADDRESS.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_ADDRESS.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -292,7 +292,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_CITY.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_CITY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -302,7 +302,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_POSTAL_CODE.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_POSTAL_CODE.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -312,7 +312,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_COUNTRY.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_COUNTRY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -332,7 +332,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.EMERGENCY,
-                SampleData.SEX_ISO218.toDataItem()
+                RDW_test_event_SampleData.SEX_ISO218.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -342,7 +342,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.LANGUAGE,
-                SampleData.NATIONALITY.toDataItem()
+                RDW_test_event_SampleData.NATIONALITY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -352,7 +352,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.NUMBERS,
-                SampleData.DOCUMENT_NUMBER.toDataItem()
+                RDW_test_event_SampleData.DOCUMENT_NUMBER.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -364,7 +364,7 @@ object PhotoID {
                 false,
                 ISO_23220_2_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_JURISDICTION.toDataItem()
+                RDW_test_event_SampleData.ISSUING_JURISDICTION.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -374,7 +374,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                null
+                RDW_test_event_SampleData.FAMILY_NAME_LATIN.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -384,7 +384,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                null
+                RDW_test_event_SampleData.GIVEN_NAME_LATIN.toDataItem()
             )
 
             // Then the PhotoID specific data elements.
@@ -397,7 +397,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.NUMBERS,
-                SampleData.PERSON_ID.toDataItem()
+                RDW_test_event_SampleData.PERSON_ID.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -408,7 +408,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                null
+                RDW_test_event_SampleData.BIRTH_COUNTRY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -419,7 +419,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                null
+                RDW_test_event_SampleData.BIRTH_STATE.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -430,7 +430,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                null
+                RDW_test_event_SampleData.BIRTH_CITY.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -441,7 +441,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.NUMBERS,
-                SampleData.ADMINISTRATIVE_NUMBER.toDataItem()
+                RDW_test_event_SampleData.ADMINISTRATIVE_NUMBER.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -452,7 +452,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_STREET.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_STREET.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -463,7 +463,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_HOUSE_NUMBER.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_HOUSE_NUMBER.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -475,7 +475,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.NUMBERS,
-                null
+                RDW_test_event_SampleData.TRAVEL_DOCUMENT_NUMBER.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -485,7 +485,7 @@ object PhotoID {
                 false,
                 PHOTO_ID_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_STATE.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_STATE.toDataItem()
             )
 
             // DTC namespace
@@ -707,15 +707,15 @@ object PhotoID {
                 displayName = "Mandatory Data Elements",
                 mdocDataElements = mapOf(
                     ISO_23220_2_NAMESPACE to mapOf(
-                            "family_name_unicode" to false,
-                            "given_name_unicode" to false,
-                            "birth_date" to false,
-                            "portrait" to false,
-                            "issue_date" to false,
-                            "expiry_date" to false,
-                            "issuing_authority_unicode" to false,
-                            "issuing_country" to false,
-                            "age_over_18" to false,
+                        "family_name_unicode" to false,
+                        "given_name_unicode" to false,
+                        "birth_date" to false,
+                        "portrait" to false,
+                        "issue_date" to false,
+                        "expiry_date" to false,
+                        "issuing_authority_unicode" to false,
+                        "issuing_country" to false,
+                        "age_over_18" to false,
                     )
                 )
             )

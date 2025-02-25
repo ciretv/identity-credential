@@ -1107,7 +1107,9 @@ class IssuingAuthorityState(
             //
             staticData = NameSpacedData.Builder().apply {
                 putEntryString(ISO_23220_2_NAMESPACE, "given_name_unicode", firstName)
+                putEntryString(ISO_23220_2_NAMESPACE, "given_name_latin1", firstName)
                 putEntryString(ISO_23220_2_NAMESPACE, "family_name_unicode", lastName)
+                putEntryString(ISO_23220_2_NAMESPACE, "family_name_latin1", lastName)
                 putEntry(
                     ISO_23220_2_NAMESPACE, "birthdate",
                     Cbor.encode(dateOfBirth.toDataItemFullDate())
@@ -1126,11 +1128,27 @@ class IssuingAuthorityState(
                     ISO_23220_2_NAMESPACE, "issuing_authority_unicode",
                     issuingAuthorityName
                 )
-                putEntryString(ISO_23220_2_NAMESPACE, "issuing_country", "ZZ")
-                putEntryString(ISO_23220_2_NAMESPACE, "document_number", "1234567890")
-                putEntryString(PHOTO_ID_NAMESPACE, "administrative_number", "123456789")
-                putEntryString(PHOTO_ID_NAMESPACE, "person_id", "24601")
+                putEntryString(ISO_23220_2_NAMESPACE, "issuing_country", "NL")
                 putEntryBoolean(ISO_23220_2_NAMESPACE, "age_over_18", ageOver18)
+                putEntryString(ISO_23220_2_NAMESPACE, "age_in_years", "38")
+                putEntryString(ISO_23220_2_NAMESPACE, "age_birth_year", "1986")
+                putEntryString(ISO_23220_2_NAMESPACE, "portrait_capture_date", "2020-03-14")
+                putEntryString(ISO_23220_2_NAMESPACE, "birth_place", "The Netherlands, Leiden")
+                putEntryString(ISO_23220_2_NAMESPACE, "name_at_birth", "Erika Mustermann")
+                putEntryString(ISO_23220_2_NAMESPACE, "resident_address_unicode", "De Heyderweg 2, Leiden")
+                putEntryString(ISO_23220_2_NAMESPACE, "resident_city_unicode", "Leiden")
+                putEntryString(ISO_23220_2_NAMESPACE, "resident_postal_code", "2314 XZ")
+                putEntryString(ISO_23220_2_NAMESPACE, "resident_country", "NL")
+                putEntryString(ISO_23220_2_NAMESPACE, "nationality", "NL")
+                putEntryString(ISO_23220_2_NAMESPACE, "document_number", "0123456789")
+                putEntryString(PHOTO_ID_NAMESPACE, "person_id", "1234567890")
+                putEntryString(PHOTO_ID_NAMESPACE, "birth_country", "NL")
+                putEntryString(PHOTO_ID_NAMESPACE, "birth_state", "Zuid-Holland")
+                putEntryString(PHOTO_ID_NAMESPACE, "birth_city", "Leiden")
+                putEntryString(PHOTO_ID_NAMESPACE, "administrative_number", "9876543210")
+                putEntryString(PHOTO_ID_NAMESPACE, "resident_street", "De Heyderweg")
+                putEntryString(PHOTO_ID_NAMESPACE, "resident_house_number", "2")
+                putEntryString(PHOTO_ID_NAMESPACE, "travel_document_number", "C11T002JM")
                 putEntryBoolean(ISO_23220_2_NAMESPACE, "age_over_21", ageOver21)
                 for (entry in mrtdData.dataGroups) {
                     putEntryByteString(

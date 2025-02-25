@@ -27,7 +27,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.PAYMENT_AUTH_NUMBER.toDataItem()
+                RDW_test_event_SampleData.PAYMENT_AUTH_NUMBER.toDataItem()
             )
 
             .addMdocAttribute(
@@ -38,7 +38,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.PAYMENT_AUTH_EXPIRY.toDataItem()
+                RDW_test_event_SampleData.PAYMENT_AUTH_EXPIRY.toDataItem()
             )
 
             .addMdocAttribute(
@@ -49,7 +49,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.TRANSACTION_AMOUNT.toDataItem()
+                RDW_test_event_SampleData.TRANSACTION_AMOUNT.toDataItem()
             )
 
             .addMdocAttribute(
@@ -60,7 +60,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.TRANSACTION_CURRENCY_CODE.toDataItem()
+                RDW_test_event_SampleData.TRANSACTION_CURRENCY_CODE.toDataItem()
             )
 
             .addMdocAttribute(
@@ -71,7 +71,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.MERCHANT_NAME.toDataItem()
+                RDW_test_event_SampleData.MERCHANT_NAME.toDataItem()
             )
 
             .addMdocAttribute(
@@ -93,7 +93,7 @@ object PaymentAuthentication {
                 true,
                 PAYMENT_AUTH_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,                                     //EVO - what is this?
-                SampleData.PAYMENT_SCHEME.toDataItem()
+                RDW_test_event_SampleData.PAYMENT_SCHEME.toDataItem()
             )
 
             .addMdocAttribute(

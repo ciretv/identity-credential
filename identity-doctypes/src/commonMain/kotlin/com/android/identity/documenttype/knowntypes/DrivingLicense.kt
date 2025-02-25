@@ -57,7 +57,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                SampleData.FAMILY_NAME.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -67,7 +67,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                SampleData.GIVEN_NAME.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAME.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Date,
@@ -77,7 +77,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                LocalDate.parse(SampleData.BIRTH_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.BIRTH_DATE).toDataItemFullDate()
             )
             .addAttribute(
                 DocumentAttributeType.Date,
@@ -87,7 +87,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.DATE_RANGE,
-                LocalDate.parse(SampleData.ISSUE_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.ISSUANCE_DATE).toDataItemFullDate()
             )
             .addAttribute(
                 DocumentAttributeType.Date,
@@ -97,7 +97,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.CALENDAR_CLOCK,
-                LocalDate.parse(SampleData.EXPIRY_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.EXPIRY_DATE).toDataItemFullDate()
             )
             .addAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -107,7 +107,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_COUNTRY.toDataItem()
+                RDW_test_event_SampleData.ISSUING_COUNTRY.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -117,7 +117,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_AUTHORITY_MDL.toDataItem()
+                RDW_test_event_SampleData.ISSUING_AUTHORITY_MDL.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -127,7 +127,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.NUMBERS,
-                SampleData.DOCUMENT_NUMBER.toDataItem()
+                RDW_test_event_SampleData.DOCUMENT_NUMBER.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Picture,
@@ -137,7 +137,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.ACCOUNT_BOX,
-                SampleData.PORTRAIT_BASE64URL.fromBase64Url().toDataItem()
+                RDW_test_event_SampleData.PORTRAIT_BASE64URL.fromBase64Url().toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.ComplexType,
@@ -169,7 +169,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.LANGUAGE,
-                SampleData.UN_DISTINGUISHING_SIGN.toDataItem()
+                RDW_test_event_SampleData.UN_DISTINGUISHING_SIGN.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -179,7 +179,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.NUMBERS,
-                SampleData.ADMINISTRATIVE_NUMBER.toDataItem()
+                RDW_test_event_SampleData.ADMINISTRATIVE_NUMBER.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.IntegerOptions(Options.SEX_ISO_IEC_5218),
@@ -189,7 +189,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.EMERGENCY,
-                SampleData.SEX_ISO218.toDataItem()
+                RDW_test_event_SampleData.SEX_ISO218.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Number,
@@ -199,7 +199,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.EMERGENCY,
-                SampleData.HEIGHT_CM.toDataItem()
+                RDW_test_event_SampleData.HEIGHT_CM.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Number,
@@ -209,7 +209,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.EMERGENCY,
-                SampleData.WEIGHT_KG.toDataItem()
+                RDW_test_event_SampleData.WEIGHT_KG.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.StringOptions(
@@ -267,7 +267,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.BIRTH_PLACE.toDataItem()
+                RDW_test_event_SampleData.BIRTH_PLACE.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -277,7 +277,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_ADDRESS.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_ADDRESS.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Date,
@@ -287,7 +287,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                LocalDate.parse(SampleData.PORTRAIT_CAPTURE_DATE).toDataItemFullDate()
+                LocalDate.parse(RDW_test_event_SampleData.PORTRAIT_CAPTURE_DATE).toDataItemFullDate()
             )
             .addAttribute(
                 DocumentAttributeType.Number,
@@ -297,7 +297,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_IN_YEARS.toDataItem()
+                RDW_test_event_SampleData.AGE_IN_YEARS.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Number,
@@ -307,7 +307,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_BIRTH_YEAR.toDataItem()
+                RDW_test_event_SampleData.AGE_BIRTH_YEAR.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -317,7 +317,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_13.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_13.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.Boolean,
@@ -327,7 +327,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_16.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_16.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -337,7 +337,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_18.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_18.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -347,7 +347,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_21.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_21.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -357,7 +357,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_25.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_25.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -367,7 +367,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_60.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_60.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -377,7 +377,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_62.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_62.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -387,7 +387,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_65.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_65.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Boolean,
@@ -397,7 +397,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.TODAY,
-                SampleData.AGE_OVER_68.toDataItem()
+                RDW_test_event_SampleData.AGE_OVER_68.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -407,7 +407,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.ACCOUNT_BALANCE,
-                SampleData.ISSUING_JURISDICTION.toDataItem()
+                RDW_test_event_SampleData.ISSUING_JURISDICTION.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -417,7 +417,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.LANGUAGE,
-                SampleData.NATIONALITY.toDataItem()
+                RDW_test_event_SampleData.NATIONALITY.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -427,7 +427,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_CITY.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_CITY.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -437,7 +437,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_STATE.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_STATE.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -447,7 +447,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_POSTAL_CODE.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_POSTAL_CODE.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.StringOptions(Options.COUNTRY_ISO_3166_1_ALPHA_2),
@@ -457,7 +457,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PLACE,
-                SampleData.RESIDENT_COUNTRY.toDataItem()
+                RDW_test_event_SampleData.RESIDENT_COUNTRY.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -467,7 +467,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                SampleData.FAMILY_NAME_NATIONAL_CHARACTER.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME_NATIONAL_CHARACTER.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -477,7 +477,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                SampleData.GIVEN_NAMES_NATIONAL_CHARACTER.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAMES_NATIONAL_CHARACTER.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Picture,
@@ -487,7 +487,7 @@ object DrivingLicense {
                 false,
                 MDL_NAMESPACE,
                 Icon.SIGNATURE,
-                SampleData.SIGNATURE_OR_USUAL_MARK_BASE64URL.fromBase64Url().toDataItem()
+                RDW_test_event_SampleData.SIGNATURE_OR_USUAL_MARK_BASE64URL.fromBase64Url().toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.ComplexType,
@@ -740,7 +740,7 @@ object DrivingLicense {
                 true,
                 AAMVA_NAMESPACE,
                 Icon.EMERGENCY,
-                SampleData.SEX_ISO218.toDataItem()
+                RDW_test_event_SampleData.SEX_ISO218.toDataItem()
             )
             /*
              * Then the attributes that exist only in the mDL Credential Type and not in the VC Credential Type

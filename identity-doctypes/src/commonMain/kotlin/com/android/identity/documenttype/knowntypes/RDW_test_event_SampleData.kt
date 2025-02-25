@@ -44,27 +44,23 @@ internal object RDW_test_event_SampleData {
     const val AGE_BIRTH_YEAR = 1986
 
 
-    //
-    const val GIVEN_NAMES_NATIONAL_CHARACTER = "Ерика"
-    const val FAMILY_NAME_NATIONAL_CHARACTER = "Бабіак"
+    // Specific values for PhotoID
+    const val FAMILY_NAME_LATIN = "Mustermann"
+    const val GIVEN_NAME_LATIN = "Erika"
+    const val EXPIRY_DATE_PHOTOID = "2029-08-01"
+    const val ISSUANCE_DATE_PHOTOID = "2024-08-01"
+    const val PORTRAIT_CAPTURE_DATE_PHOTOID = "2022-11-14T00:00:00Z"
+    const val NAME_AT_BIRTH = "Erika Mustermann"
+    const val BIRTH_COUNTRY = "NL"  // Note: ZZ is a user-assigned country-code as per ISO 3166-1
+    const val BIRTH_STATE = "Zuid-Holland"
+    const val BIRTH_CITY = "Leiden"
+    const val PERSON_ID = "1234567890"
+    const val ADMINISTRATIVE_NUMBER = "9876543210"
+    const val TRAVEL_DOCUMENT_NUMBER = "C11T002JM"
+    const val ISSUING_AUTHORITY_PHOTO_ID = "Explicit Selection"
+    const val ISSUING_JURISDICTION = "Netherlands"
 
-    const val BIRTH_COUNTRY = "ZZ"  // Note: ZZ is a user-assigned country-code as per ISO 3166-1
-
-    const val ISSUING_AUTHORITY_MDL = "Utopia Department of Motor Vehicles"
-
-    const val ISSUING_AUTHORITY_PHOTO_ID = "Utopia Central Registry"
-
-    const val PERSON_ID = "24601"
-
-    const val UN_DISTINGUISHING_SIGN = "UTO"
-
-    const val HEIGHT_CM = 175
-    const val WEIGHT_KG = 68
-
-    const val BIRTH_STATE = "Sample State"
-    const val BIRTH_CITY = "Sample City"
-
-    const val AGE_OVER = true  // Generic "age over" value
+    // Specific values for Age over
     const val AGE_OVER_13 = true
     const val AGE_OVER_16 = true
     const val AGE_OVER_21 = true
@@ -73,7 +69,15 @@ internal object RDW_test_event_SampleData {
     const val AGE_OVER_62 = false
     const val AGE_OVER_65 = false
     const val AGE_OVER_68 = false
-    const val ISSUING_JURISDICTION = "State of Utopia"
+
+    // mDL specific sample data
+    const val GIVEN_NAMES_NATIONAL_CHARACTER = "Ерика"
+    const val FAMILY_NAME_NATIONAL_CHARACTER = "Бабіак"
+    const val ISSUING_AUTHORITY_MDL = "Utopia Department of Motor Vehicles"
+    const val UN_DISTINGUISHING_SIGN = "UTO"
+    const val HEIGHT_CM = 175
+    const val WEIGHT_KG = 68
+    const val AGE_OVER = true  // Generic "age over" value
 
     //Movie ticket specific sample data
     const val TICKET_NUMBER = 123456789

@@ -11,7 +11,7 @@ import com.android.identity.documenttype.knowntypes.DrivingLicense
 import com.android.identity.documenttype.knowntypes.EUPersonalID
 import com.android.identity.documenttype.knowntypes.PaymentAuthentication
 import com.android.identity.documenttype.knowntypes.VaccinationDocument
-import com.android.identity.documenttype.knowntypes.VehicleRegistration
+import com.android.identity.documenttype.knowntypes.PhotoID
 import com.android.identity.mdoc.vical.SignedVical
 import com.android.identity.storage.GenericStorageEngine
 import com.android.identity.storage.StorageEngine
@@ -83,7 +83,7 @@ class VerifierApp : Application() {
 
         documentTypeRepositoryInstance = documentTypeRepository
         documentTypeRepositoryInstance.addDocumentType(DrivingLicense.getDocumentType())
-        documentTypeRepositoryInstance.addDocumentType(VehicleRegistration.getDocumentType())
+        documentTypeRepositoryInstance.addDocumentType(PhotoID.getDocumentType())
         documentTypeRepositoryInstance.addDocumentType(VaccinationDocument.getDocumentType())
         documentTypeRepositoryInstance.addDocumentType(EUPersonalID.getDocumentType())
         documentTypeRepositoryInstance.addDocumentType(PaymentAuthentication.getDocumentType())

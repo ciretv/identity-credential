@@ -33,7 +33,7 @@ class CreateRequestViewModel : ViewModel() {
             }
 
             state.value.custom.title -> mutableState.update { it.copy(custom = updated) }
-            state.value.mVR.title -> mutableState.update { it.copy(mVR = updated) }
+            state.value.photoID.title -> mutableState.update { it.copy(photoID = updated) }
             state.value.euPid.title -> mutableState.update { it.copy(euPid = updated) }
             state.value.paymentAuthentication_sca.title -> mutableState.update { it.copy(paymentAuthentication_sca = updated) }
             state.value.payment_initiation.title -> mutableState.update { it.copy(payment_initiation = updated) }
@@ -127,10 +127,10 @@ class CreateRequestViewModel : ViewModel() {
             }
         }
 
-        if (uiState.mVR.isSelected) {
+        if (uiState.photoID.isSelected) {
             requestDocumentList.addRequestDocument(
                 getRequestDocument(
-                    RequestDocument.MVR_DOCTYPE,
+                    RequestDocument.PHOTO_ID_DOCTYPE,
                     intentToRetain
                 )
             )

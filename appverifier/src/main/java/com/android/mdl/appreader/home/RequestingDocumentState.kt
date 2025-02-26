@@ -17,7 +17,7 @@ data class RequestingDocumentState(
     val fullMdl: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_full),
     val mdlForUsTransportation: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_us_transportation, true),
     val custom: DocumentElementsRequest = DocumentElementsRequest(R.string.mdl_custom),
-    val mVR: DocumentElementsRequest = DocumentElementsRequest(R.string.mvr_full),
+    val photoID: DocumentElementsRequest = DocumentElementsRequest(R.string.photoID_full),
     val euPid: DocumentElementsRequest = DocumentElementsRequest(R.string.eu_pid_full),
     val paymentAuthentication_sca: DocumentElementsRequest = DocumentElementsRequest(R.string.payment_authentication_sca),
     val payment_initiation: DocumentElementsRequest = DocumentElementsRequest(R.string.payment_initiation),
@@ -43,7 +43,7 @@ data class RequestingDocumentState(
         if (fullMdl.isSelected) selection.append("Driving Licence; ")
         if (mdlForUsTransportation.isSelected) selection.append("mDL for US transportation; ")
         if (custom.isSelected) selection.append("mDL Custom; ")
-        if (mVR.isSelected) selection.append("Vehicle Document; ")
+        if (photoID.isSelected) selection.append("Photo ID; ")
         if (euPid.isSelected) selection.append("European Personal ID; ")
         if (paymentAuthentication_sca.isSelected) {
             showTransactionInputDialogs(context, requiresSchemeAndType=false) { amount, currency, merchant, scheme, type ->

@@ -301,6 +301,36 @@ class ShowDocumentFragment : Fragment() {
                 }
                 sb.append("</p><br>")
             }
+
+            val deviceData = doc.getDeviceData()
+
+            if (!deviceData.isNullOrEmpty()) {
+                sb.append("<h5>Device signed data elements: </h5>")
+                sb.append("<p>")
+
+                for ((key, valueMap) in deviceData) {  // 🔹 Loop through top-level keys & nested map
+                    for ((subKey, entryData) in valueMap) {  // 🔹 Iterate through sub-keys & EntryData
+                        val byteArray: ByteArray = entryData.value  // 🔹 Extract byte array
+
+                        try {
+                            val decodedValue =
+                                Cbor.decode(byteArray)?.toString()?.removePrefix("Tstr(\"")
+                                    ?.removeSuffix("\")") ?: "999"  // 🔹 Decode with CBOR
+                            sb.append(
+                                "${
+                                    getFormattedCheck(true)
+                                }<b>${
+                                    subKey.replace("_", " ") // Replace underscores with spaces
+                                        .split(" ") // Split into words
+                                        .joinToString(" ") { it.replaceFirstChar { char -> char.uppercaseChar() } }
+                                }</b> -> $decodedValue<br>"
+                            )
+                        } catch (e: Exception) {
+                            sb.append("<b>Error Decoding:</b> ${e.message}<br>")
+                        }
+                    }
+                }
+            }
         }
         return sb.toString()
     }

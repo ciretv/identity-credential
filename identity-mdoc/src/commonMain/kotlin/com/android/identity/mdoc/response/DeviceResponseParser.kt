@@ -373,11 +373,14 @@ class DeviceResponseParser(
          */
         lateinit var issuerCertificateChain: X509CertChain
 
-        private data class EntryData(var value: ByteArray, var digestMatch: Boolean)
+        public data class EntryData(var value: ByteArray, var digestMatch: Boolean)
 
         private var deviceData = mutableMapOf<String, MutableMap<String, EntryData>>()
         private var issuerData = mutableMapOf<String, MutableMap<String, EntryData>>()
 
+        fun getDeviceData(): MutableMap<String, MutableMap<String, EntryData>> {
+            return deviceData
+        }
 
         /**
          * The number of issuer entries for that didn't match the digest in the MSO.
@@ -479,7 +482,6 @@ class DeviceResponseParser(
             require(entryData != null) { "Entry not in data" }
             return entryData.digestMatch
         }
-
         /**
          * Gets the raw CBOR data for the value of given data element in a given namespace in
          * issuer-signed data.

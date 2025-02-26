@@ -378,10 +378,6 @@ class DeviceResponseParser(
         private var deviceData = mutableMapOf<String, MutableMap<String, EntryData>>()
         private var issuerData = mutableMapOf<String, MutableMap<String, EntryData>>()
 
-        fun getDeviceData(): MutableMap<String, MutableMap<String, EntryData>> {
-            return deviceData
-        }
-
         /**
          * The number of issuer entries for that didn't match the digest in the MSO.
          */
@@ -477,6 +473,25 @@ class DeviceResponseParser(
             name: String
         ): Boolean {
             val innerMap = issuerData[namespaceName]
+                ?: throw IllegalArgumentException("Namespace not in data")
+            val entryData = innerMap[name]
+            require(entryData != null) { "Entry not in data" }
+            return entryData.digestMatch
+        }
+
+        /**
+         * Gets whether the digest for the given entry matches the digest in the MSO.
+         *
+         * @param namespaceName the name of the namespace to get a data element value from.
+         * @param name the name of the data element in the given namespace.
+         * @return the encoded CBOR data for the data element
+         * @exception IllegalArgumentException if the given namespace or entry isn't in the data.
+         */
+        fun getDeviceEntryDigestMatch(
+            namespaceName: String,
+            name: String
+        ): Boolean {
+            val innerMap = deviceData[namespaceName]
                 ?: throw IllegalArgumentException("Namespace not in data")
             val entryData = innerMap[name]
             require(entryData != null) { "Entry not in data" }

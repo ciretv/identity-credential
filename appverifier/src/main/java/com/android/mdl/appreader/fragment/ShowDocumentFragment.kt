@@ -302,35 +302,38 @@ class ShowDocumentFragment : Fragment() {
                 sb.append("</p><br>")
             }
 
-            val deviceData = doc.getDeviceData()
-
-            if (!deviceData.isNullOrEmpty()) {
-                sb.append("<h5>Device signed data elements: </h5>")
+            // Validate Device Signed Data
+            for (ns in doc.deviceNamespaces) {
+                sb.append("<h5>Device signed data elements:</h5>")
                 sb.append("<p>")
-
-                for ((key, valueMap) in deviceData) {  // 🔹 Loop through top-level keys & nested map
-                    for ((subKey, entryData) in valueMap) {  // 🔹 Iterate through sub-keys & EntryData
-                        val byteArray: ByteArray = entryData.value  // 🔹 Extract byte array
-
-                        try {
-                            val decodedValue =
-                                Cbor.decode(byteArray)?.toString()?.removePrefix("Tstr(\"")
-                                    ?.removeSuffix("\")") ?: "999"  // 🔹 Decode with CBOR
-                            sb.append(
-                                "${
-                                    getFormattedCheck(true)
-                                }<b>${
-                                    subKey.replace("_", " ") // Replace underscores with spaces
-                                        .split(" ") // Split into words
-                                        .joinToString(" ") { it.replaceFirstChar { char -> char.uppercaseChar() } }
-                                }</b> -> $decodedValue<br>"
-                            )
-                        } catch (e: Exception) {
-                            sb.append("<b>Error Decoding:</b> ${e.message}<br>")
-                        }
+                for (elem in doc.getDeviceEntryNames(ns)) {
+                    val value: ByteArray = doc.getDeviceEntryData(ns, elem)
+                    var valueStr: String
+                    val mdocDataElement =
+                        VerifierApp.documentTypeRepositoryInstance
+                            .getDocumentTypeForMdoc(doc.docType)
+                            ?.mdocDocumentType
+                            ?.namespaces?.get(ns)?.dataElements?.get(elem)
+                    val name = mdocDataElement?.attribute?.displayName ?: elem
+                    if (mdocDataElement != null) {
+                        valueStr = mdocDataElement.renderValue(Cbor.decode(value))
+                    } else {
+                        valueStr = Cbor.toDiagnostics(value)
                     }
+                    sb.append(
+                        "${
+                            getFormattedCheck(
+                                doc.getDeviceEntryDigestMatch(
+                                    ns,
+                                    elem
+                                )
+                            )
+                        }<b>$name</b> -> $valueStr<br>"
+                    )
                 }
+                sb.append("</p><br>")
             }
+
         }
         return sb.toString()
     }

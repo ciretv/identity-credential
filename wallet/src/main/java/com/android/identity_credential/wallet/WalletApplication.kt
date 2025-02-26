@@ -253,16 +253,16 @@ class WalletApplication : Application() {
             R.raw.rdw_test_event_2025_thales_reader_ca_2,
             R.raw.rdw_test_event_2025_toppan_reader_ca,
             R.raw.rdw_test_event_2025_zetes_reader_ca,
-            R.raw.es_reader_ca
+            R.raw.es_reader_ca,
+            R.raw.owf_identity_credential_reader_cert
         )) {
-            val pemEncodedCert = resources.openRawResource(certResourceId).readBytes().decodeToString()
-            Logger.i(TAG, "PEMEncoded\n$pemEncodedCert")
-            val cert = X509Cert.fromPem(pemEncodedCert)
+            val pemEncodedCert = resources.openRawResource(certResourceId).readBytes()
+            val cert = X509Cert.fromPem(pemEncodedCert.decodeToString())
             Logger.iHex(TAG, "x509cert", cert.encodedCertificate)
             readerTrustManager.addTrustPoint(
                 TrustPoint(
                     cert,
-                    null,
+                    certResourceId.toString().removePrefix("R.raw.rdw_test_event_2025_"),
                     null,
                 )
             )

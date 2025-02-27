@@ -67,14 +67,14 @@ class VerifierApp : Application() {
         }
         // Configured for 2025 RDW test event
         val signedVical = SignedVical.parse(
-            resources.openRawResource(R.raw.rdw_test_event_2025_vical).readBytes()
+            resources.openRawResource(R.raw.rdw_test_event_2025_vical_v3).readBytes()
         )
         for (certInfo in signedVical.vical.certificateInfos) {
             val cert = X509Cert(certInfo.certificate)
             trustManagerInstance.addTrustPoint(
                 TrustPoint(
                     cert,
-                    null,
+                    certInfo.toString().removePrefix("R.raw.rdw_test_event_2025_"),
                     null
                 )
             )

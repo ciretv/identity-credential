@@ -57,7 +57,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.FAMILY_NAME.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME_MDL.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -67,7 +67,7 @@ object DrivingLicense {
                 true,
                 MDL_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.GIVEN_NAME.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAME_MDL.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Date,

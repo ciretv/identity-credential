@@ -12,9 +12,19 @@ package com.android.identity.documenttype.knowntypes
  */
 internal object RDW_test_event_SampleData {
 
+    // Separate name for mDL for easy reader identification
+    const val FAMILY_NAME_MDL = "Mustermann - mDL"
+    const val GIVEN_NAME_MDL = "Erika - mDL"
+
+    // Separate name for PID for easy reader identification
+    const val FAMILY_NAME_PID = "Mustermann - PID"
+    const val GIVEN_NAME_PID = "Erika - PID"
+
+    // Separate name for Photo ID for easy reader identification
+    const val FAMILY_NAME_PHOTOID = "Mustermann - Photo ID"
+    const val GIVEN_NAME_PHOTOID = "Erika - Photo ID"
+
     // PID based on ARF 1.5.0 and Fime test data set
-    const val FAMILY_NAME = "Mustermann"
-    const val GIVEN_NAME = "Erika"
     const val BIRTH_DATE = "1986-03-14"
     const val BIRTH_PLACE = "The Netherlands, Leiden"
     const val NATIONALITY = "NL"  // Note: ZZ is a user-assigned country-code as per ISO 3166-1

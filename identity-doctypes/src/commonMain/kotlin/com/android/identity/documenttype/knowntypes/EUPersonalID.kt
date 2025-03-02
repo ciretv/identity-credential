@@ -52,7 +52,7 @@ object EUPersonalID {
                 true,
                 EUPID_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.FAMILY_NAME.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME_PID.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.String,
@@ -62,7 +62,7 @@ object EUPersonalID {
                 true,
                 EUPID_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.GIVEN_NAME.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAME_PID.toDataItem()
             )
             .addAttribute(
                 DocumentAttributeType.Date,

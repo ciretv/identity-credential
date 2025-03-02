@@ -36,7 +36,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.FAMILY_NAME.toDataItem()
+                RDW_test_event_SampleData.FAMILY_NAME_PHOTOID.toDataItem()
             )
             .addMdocAttribute(
                 DocumentAttributeType.String,
@@ -46,7 +46,7 @@ object PhotoID {
                 true,
                 ISO_23220_2_NAMESPACE,
                 Icon.PERSON,
-                RDW_test_event_SampleData.GIVEN_NAME.toDataItem()
+                RDW_test_event_SampleData.GIVEN_NAME_PHOTOID.toDataItem()
             )
             // Note, this is more complicated than mDL and EU PID, according to ISO/IEC 23220-2
             // clause "6.3.1.1.3 Date of birth as either uncertain or approximate, or both"
